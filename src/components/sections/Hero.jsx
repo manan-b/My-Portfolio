@@ -5,6 +5,7 @@ import Button from '@/components/ui/Button';
 import { scrollToElement } from '@/lib/utils';
 import resumeData from '@/data/resume.json';
 import profileImage from '@/assets/manan_image.JPG';
+import resumePDF from '@/assets/My Resume.pdf';
 
 /**
  * Hero Section - Enhanced Professional Design
@@ -116,7 +117,7 @@ export default function Hero() {
                         >
                             <Button
                                 as="a"
-                                href="/resume.pdf"
+                                href={resumePDF}
                                 download="Manan_Batra_Resume.pdf"
                                 variant="primary"
                                 size="lg"

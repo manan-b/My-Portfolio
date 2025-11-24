@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { scrollToElement } from '@/lib/utils';
+import resumePDF from '@/assets/My Resume.pdf';
 
 /**
  * Header Component - Dark theme with cyan accents
@@ -100,7 +101,7 @@ export default function Header() {
                                 initial={{ opacity: 0, scale: 0.8 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.8 }}
-                                href="/resume.pdf"
+                                href={resumePDF}
                                 download="Manan_Batra_Resume.pdf"
                                 className="flex items-center gap-2 px-4 py-2 bg-primary-400/10 text-primary-400 text-sm font-medium rounded-lg border border-primary-400/30 hover:bg-primary-400/20 hover:border-primary-400 transition-all"
                             >
@@ -170,7 +171,7 @@ export default function Header() {
                             {/* Resume Button - Mobile - Only visible when not on hero section */}
                             {activeSection !== 'hero' && activeSection !== '' && (
                                 <a
-                                    href="/resume.pdf"
+                                    href={resumePDF}
                                     download="Manan_Batra_Resume.pdf"
                                     className="flex items-center justify-center gap-2 mx-4 mt-2 px-4 py-3 bg-primary-400/10 text-primary-400 font-medium rounded-lg border border-primary-400/30 hover:bg-primary-400/20 transition-all"
                                 >
