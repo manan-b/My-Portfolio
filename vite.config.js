@@ -4,7 +4,7 @@ import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/',
+  base: '/My-Portfolio/',
   plugins: [react()],
   assetsInclude: ['**/*.JPG', '**/*.jpg', '**/*.png', '**/*.PNG', '**/*.svg', '**/*.gif'],
   resolve: {
