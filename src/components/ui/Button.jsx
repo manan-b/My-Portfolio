@@ -32,14 +32,16 @@ export default function Button({
         lg: 'px-8 py-4 text-lg',
     };
 
+    const Component = props.href ? motion.a : motion.button;
+
     return (
-        <motion.button
+        <Component
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             className={cn(baseStyles, variants[variant], sizes[size], className)}
             {...props}
         >
             {children}
-        </motion.button>
+        </Component>
     );
 }
