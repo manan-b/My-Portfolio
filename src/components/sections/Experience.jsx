@@ -6,15 +6,16 @@ import cheggCertificate from '@/assets/Offer Letter@CHEGG.pdf';
 /**
  * Experience Section - Vertical Timeline with Boxes (Turquoise Theme)
  */
+
+// Map company names to their respective certificate PDFs
+const certificateLinks = {
+    'EOXS': eoxsCertificate,
+    'Chegg India': cheggCertificate,
+    'Wiperspray': null // No certificate for Wiperspray yet
+};
+
 export default function Experience() {
     const experiences = resumeData.experience || [];
-
-    // Map company names to their respective certificate PDFs
-    const certificateLinks = {
-        'EOXS': eoxsCertificate,
-        'Chegg India': cheggCertificate,
-        'Wiperspray': null // No certificate for Wiperspray yet
-    };
 
     return (
         <section
@@ -58,11 +59,6 @@ export default function Experience() {
                                             transition={{ delay: idx * 0.15 }}
                                             className="relative pl-16 md:pl-24 pb-12 last:pb-0"
                                         >
-                                            {/* Vertical Line Segment (connects to next item) */}
-                                            {idx !== experiences.length - 1 && (
-                                                <div className="absolute left-[18px] md:left-[38px] top-[32px] bottom-[-32px] w-1 bg-primary-400/20 rounded-full" />
-                                            )}
-
                                             {/* Turquoise Dot with Glow - Centered on Line */}
                                             <div className="absolute left-[8px] md:left-[28px] top-5 z-10">
                                                 <div className="w-6 h-6 bg-[var(--bg-primary)] rounded-full border-[3px] border-primary-400 shadow-[0_0_15px_rgba(45,212,191,0.6)]" />

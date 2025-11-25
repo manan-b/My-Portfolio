@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { fadeInUp } from '@/lib/motionPresets';
 import resumeData from '@/data/resume.json';
-import profileImage from '@/assets/manan_img.jpg';
+import profileImage from '@/assets/manan batra.jpeg';
 
 /**
  * About Section - Redesigned to match reference with photo left, content right

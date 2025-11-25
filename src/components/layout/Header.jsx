@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { scrollToElement } from '@/lib/utils';
-import resumePDF from '@/assets/My Resume.pdf';
+import resumePDF from '@/assets/Manan_Batra_Resume.pdf';
 
 /**
  * Header Component - Dark theme with cyan accents
@@ -103,6 +103,8 @@ export default function Header() {
                                 exit={{ opacity: 0, scale: 0.8 }}
                                 href={resumePDF}
                                 download="Manan_Batra_Resume.pdf"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="flex items-center gap-2 px-4 py-2 bg-primary-400/10 text-primary-400 text-sm font-medium rounded-lg border border-primary-400/30 hover:bg-primary-400/20 hover:border-primary-400 transition-all"
                             >
                                 Resume
@@ -173,6 +175,8 @@ export default function Header() {
                                 <a
                                     href={resumePDF}
                                     download="Manan_Batra_Resume.pdf"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     className="flex items-center justify-center gap-2 mx-4 mt-2 px-4 py-3 bg-primary-400/10 text-primary-400 font-medium rounded-lg border border-primary-400/30 hover:bg-primary-400/20 transition-all"
                                 >
                                     Resume

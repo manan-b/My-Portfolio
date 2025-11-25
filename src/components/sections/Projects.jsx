@@ -2,6 +2,16 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { staggerContainer, staggerItem } from '@/lib/motionPresets';
 import resumeData from '@/data/resume.json';
+import viewTubeImg from '@/assets/ViewTube.png';
+import movieRecImg from '@/assets/Movie_Recommendation_System.png';
+import portfolioImg from '@/assets/Portfolio_ss.png';
+
+// Map project names to their respective images
+const projectImages = {
+    'ViewTube': viewTubeImg,
+    'Movie Recommendation System': movieRecImg,
+    'Portfolio Website': portfolioImg
+};
 
 /**
  * Projects Section - Completely Restructured with Enhanced UI/UX
@@ -67,6 +77,9 @@ export default function Projects() {
                         const displayedTech = isExpanded ? project.technologies : project.technologies.slice(0, 5);
                         const remainingTechCount = project.technologies.length - 5;
 
+                        // Use mapped image or fallback to project.image
+                        const projectImage = projectImages[project.name] || project.image;
+
                         return (
                             <motion.div
                                 key={index}
@@ -77,13 +90,13 @@ export default function Projects() {
                             >
                                 {/* Animated Glow Effect */}
                                 <motion.div
-                                    className="absolute -inset-1 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                                    className="absolute -inset-0.5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                                     style={{
                                         background: 'linear-gradient(135deg, var(--color-primary-400), var(--color-secondary-400))',
-                                        filter: 'blur(20px)',
+                                        filter: 'blur(8px)',
                                     }}
                                     animate={isHovered ? {
-                                        scale: [1, 1.02, 1],
+                                        scale: [1, 1.01, 1],
                                     } : {}}
                                     transition={{
                                         duration: 2,
@@ -95,31 +108,29 @@ export default function Projects() {
                                 {/* Project Card with Modern Design */}
                                 <div className="relative bg-gradient-to-br from-[var(--bg-tertiary)] to-[var(--bg-secondary)] rounded-3xl overflow-hidden border border-[var(--border-color)] group-hover:border-primary-400/60 transition-all duration-500 shadow-2xl hover:shadow-glow-lg">
                                     <div className="p-8">
-                                        {/* Project Header */}
-                                        <div className="flex items-start justify-between mb-6">
-                                            {/* Icon with animated background */}
-                                            <motion.div
-                                                whileHover={{ rotate: 5, scale: 1.1 }}
-                                                className="relative"
-                                            >
-                                                <div className="absolute inset-0 bg-gradient-to-br from-primary-400/30 to-secondary-400/30 rounded-xl blur-md" />
-                                                <div className="relative p-3 bg-gradient-to-br from-primary-400/10 to-secondary-400/10 rounded-xl border border-primary-400/30">
-                                                    <svg className="w-8 h-8 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                                                    </svg>
-                                                </div>
-                                            </motion.div>
+                                        {/* Project Image */}
+                                        <div className="relative h-56 mb-6 overflow-hidden rounded-xl group-hover:shadow-md transition-all duration-500">
+                                            <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-secondary)] to-transparent opacity-60 z-10" />
+                                            <img
+                                                src={projectImage}
+                                                alt={project.name}
+                                                className="w-full h-full object-cover object-top transform group-hover:scale-110 transition-transform duration-700"
+                                                onError={(e) => {
+                                                    e.target.onerror = null;
+                                                    e.target.src = 'https://placehold.co/600x400/1a1a1a/ffffff?text=Project+Preview';
+                                                }}
+                                            />
 
-                                            {/* Action Links */}
-                                            <div className="flex gap-3">
+                                            {/* Action Links Overlay */}
+                                            <div className="absolute bottom-3 right-3 flex gap-2 z-20 translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
                                                 {project.github && (
                                                     <motion.a
                                                         href={project.github}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        whileHover={{ scale: 1.1, rotate: 5 }}
+                                                        whileHover={{ scale: 1.1 }}
                                                         whileTap={{ scale: 0.95 }}
-                                                        className="p-3 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-secondary)] hover:text-primary-400 hover:bg-primary-400/10 border border-transparent hover:border-primary-400/30 transition-all"
+                                                        className="p-2 rounded-lg bg-[var(--bg-primary)]/90 text-[var(--text-primary)] hover:text-primary-400 backdrop-blur-sm shadow-lg"
                                                         title="View Source Code"
                                                     >
                                                         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -132,9 +143,9 @@ export default function Projects() {
                                                         href={project.link}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        whileHover={{ scale: 1.1, rotate: -5 }}
+                                                        whileHover={{ scale: 1.1 }}
                                                         whileTap={{ scale: 0.95 }}
-                                                        className="p-3 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-secondary)] hover:text-primary-400 hover:bg-primary-400/10 border border-transparent hover:border-primary-400/30 transition-all"
+                                                        className="p-2 rounded-lg bg-[var(--bg-primary)]/90 text-[var(--text-primary)] hover:text-primary-400 backdrop-blur-sm shadow-lg"
                                                         title="Visit Live Site"
                                                     >
                                                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -143,6 +154,22 @@ export default function Projects() {
                                                     </motion.a>
                                                 )}
                                             </div>
+                                        </div>
+
+                                        {/* Project Header */}
+                                        <div className="flex items-start justify-between mb-4">
+                                            {/* Icon with animated background */}
+                                            <motion.div
+                                                whileHover={{ rotate: 5, scale: 1.1 }}
+                                                className="relative"
+                                            >
+                                                <div className="absolute inset-0 bg-gradient-to-br from-primary-400/30 to-secondary-400/30 rounded-xl blur-md" />
+                                                <div className="relative p-2 bg-gradient-to-br from-primary-400/10 to-secondary-400/10 rounded-xl border border-primary-400/30">
+                                                    <svg className="w-6 h-6 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                                                    </svg>
+                                                </div>
+                                            </motion.div>
                                         </div>
 
                                         {/* Project Title */}

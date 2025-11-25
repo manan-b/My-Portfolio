@@ -81,6 +81,7 @@
     {
       "name": "ViewTube",
       "description": "A YouTube clone featuring video streaming with API integration and data fetching, resulting in 30% faster load times and improved user retention by 40%. Developed responsive UI with Tailwind CSS, ensuring accessibility compliance.",
+      "image": "/project-viewtube.png",
       "technologies": [
         "React",
         "Tailwind CSS",
@@ -98,6 +99,7 @@
     {
       "name": "Movie Recommendation System",
       "description": "Designed and deployed a high-performance movie recommendation API, cutting server response time by 50% through backend optimizations. Developed advanced predictive models that improved recommendation accuracy by 30%.",
+      "image": "/project-filmfizz.png",
       "technologies": [
         "React",
         "Node.js",
@@ -115,6 +117,7 @@
     {
       "name": "Portfolio Website",
       "description": "A personal portfolio website designed to showcase skills, projects, and experience. Built with React and Tailwind CSS for a modern, responsive look.",
+      "image": "/project-portfolio.png",
       "technologies": [
         "React",
         "Tailwind CSS",
