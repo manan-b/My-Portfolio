@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import resumeData from '@/data/resume.json';
 
@@ -14,13 +14,93 @@ export default function Contact() {
     const [status, setStatus] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isRobotChecked, setIsRobotChecked] = useState(false);
+    const [emailError, setEmailError] = useState('');
+
+    // List of common disposable email domains
+    const disposableEmailDomains = [
+        'tempmail.com', 'throwaway.email', 'guerrillamail.com', 'mailinator.com',
+        '10minutemail.com', 'temp-mail.org', 'getnada.com', 'trashmail.com',
+        'fakeinbox.com', 'yopmail.com', 'maildrop.cc', 'sharklasers.com',
+        'guerrillamail.info', 'guerrillamail.biz', 'guerrillamail.de', 'spam4.me',
+        'grr.la', 'guerrillamail.org', 'guerrillamailblock.com', 'pokemail.net',
+        'spamgourmet.com', 'incognitomail.com', 'anonymousemail.me', 'mytemp.email',
+        'tempinbox.com', 'mohmal.com', 'emailondeck.com', 'discard.email',
+        'burnermail.io', 'throwawaymail.com', 'temp-mail.io', 'mailnesia.com',
+        'mintemail.com', 'mailcatch.com', 'emailfake.com', 'fakemail.net'
+    ];
+
+    // Comprehensive email validation function
+    const validateEmail = (email) => {
+        // Basic format check
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return { valid: false, message: 'Please enter a valid email address' };
+        }
+
+        // More strict format validation
+        const strictEmailRegex = /^[a-zA-Z0-9][a-zA-Z0-9._-]*@[a-zA-Z0-9][a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!strictEmailRegex.test(email)) {
+            return { valid: false, message: 'Email format is invalid' };
+        }
+
+        // Check for consecutive dots
+        if (email.includes('..')) {
+            return { valid: false, message: 'Email cannot contain consecutive dots' };
+        }
+
+        // Extract domain
+        const domain = email.split('@')[1]?.toLowerCase();
+        if (!domain) {
+            return { valid: false, message: 'Email domain is invalid' };
+        }
+
+        // Check for disposable email domains
+        if (disposableEmailDomains.includes(domain)) {
+            return { valid: false, message: 'Temporary/disposable email addresses are not allowed' };
+        }
+
+        // Check domain has valid TLD
+        const domainParts = domain.split('.');
+        if (domainParts.length < 2 || domainParts[domainParts.length - 1].length < 2) {
+            return { valid: false, message: 'Email domain is invalid' };
+        }
+
+        return { valid: true, message: '' };
+    };
 
     const handleChange = (e) => {
+        const { name, value } = e.target;
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value,
+            [name]: value,
         });
+
+        // Clear email error when user starts typing
+        if (name === 'email') {
+            setEmailError('');
+        }
     };
+
+    // Email blur validation
+    const handleEmailBlur = () => {
+        if (formData.email) {
+            const validation = validateEmail(formData.email);
+            if (!validation.valid) {
+                setEmailError(validation.message);
+            }
+        }
+    };
+
+    // Auto-hide success message after 3 seconds
+    useEffect(() => {
+        if (status === 'success') {
+            const timer = setTimeout(() => {
+                setStatus('');
+            }, 3000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [status]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -28,6 +108,13 @@ export default function Contact() {
         // Validate CAPTCHA checkbox
         if (!isRobotChecked) {
             alert('Please confirm you are not a robot');
+            return;
+        }
+
+        // Validate email before submission
+        const emailValidation = validateEmail(formData.email);
+        if (!emailValidation.valid) {
+            setEmailError(emailValidation.message);
             return;
         }
 
@@ -56,6 +143,7 @@ export default function Contact() {
                 setStatus('success');
                 setFormData({ name: '', email: '', message: '' });
                 setIsRobotChecked(false);
+                setEmailError('');
             } else {
                 setStatus('error');
             }
@@ -214,10 +302,22 @@ export default function Contact() {
                                     name="email"
                                     value={formData.email}
                                     onChange={handleChange}
+                                    onBlur={handleEmailBlur}
                                     required
                                     placeholder="Enter your Email ID..."
-                                    className="w-full px-4 py-2.5 bg-[var(--bg-tertiary)] text-[var(--text-primary)] rounded-lg border border-[var(--border-color)] focus:border-primary-400 focus:outline-none focus:ring-1 focus:ring-primary-400 transition-all placeholder:text-[var(--text-secondary)]/50"
+                                    className={`w-full px-4 py-2.5 bg-[var(--bg-tertiary)] text-[var(--text-primary)] rounded-lg border transition-all placeholder:text-[var(--text-secondary)]/50 ${emailError
+                                        ? 'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500'
+                                        : 'border-[var(--border-color)] focus:border-primary-400 focus:outline-none focus:ring-1 focus:ring-primary-400'
+                                        }`}
                                 />
+                                {emailError && (
+                                    <p className="mt-1.5 text-xs text-red-500 flex items-center gap-1">
+                                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        {emailError}
+                                    </p>
+                                )}
                             </div>
 
                             {/* Message Textarea */}
