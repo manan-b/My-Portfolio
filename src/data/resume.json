@@ -79,8 +79,14 @@
   ],
   "projects": [
     {
-      "name": "ViewTube",
+      "name": "ViewTube ~ YouTube Clone",
       "description": "A YouTube clone featuring video streaming with API integration and data fetching, resulting in 30% faster load times and improved user retention by 40%. Developed responsive UI with Tailwind CSS, ensuring accessibility compliance.",
+      "bullets": [
+        "Built a YouTube clone with video streaming and API integration",
+        "Achieved 30% faster load times through optimized data fetching",
+        "Improved user retention by 40% with enhanced UX design",
+        "Developed responsive UI with Tailwind CSS for cross-device compatibility"
+      ],
       "image": "/project-viewtube.png",
       "technologies": [
         "React",
@@ -99,6 +105,12 @@
     {
       "name": "Movie Recommendation System",
       "description": "Designed and deployed a high-performance movie recommendation API, cutting server response time by 50% through backend optimizations. Developed advanced predictive models that improved recommendation accuracy by 30%.",
+      "bullets": [
+        "Built a high-performance movie recommendation system with advanced algorithms",
+        "Reduced server response time by 50% through backend optimizations",
+        "Improved recommendation accuracy by 30% using predictive models",
+        "Integrated RESTful APIs for seamless data exchange"
+      ],
       "image": "/project-filmfizz.png",
       "technologies": [
         "React",
@@ -117,6 +129,11 @@
     {
       "name": "Portfolio Website",
       "description": "A personal portfolio website designed to showcase skills, projects, and experience. Built with React and Tailwind CSS for a modern, responsive look.",
+      "bullets": [
+        "Designed and developed a modern portfolio website to showcase projects and skills",
+        "Built with React and Tailwind CSS for responsive design",
+        "Integrated Framer Motion for smooth animations and transitions"
+      ],
       "image": "/project-portfolio.png",
       "technologies": [
         "React",
@@ -127,8 +144,8 @@
         "HTML",
         "CSS"
       ],
-      "github": "https://github.com/mananbatra1946/portfolio",
-      "link": "https://mananbatra.com"
+      "github": "https://github.com/manan-b/My-Portfolio",
+      "link": "https://manan-b.github.io/My-Portfolio/"
     }
   ],
   "education": [
