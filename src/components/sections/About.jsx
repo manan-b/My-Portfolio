@@ -55,7 +55,7 @@ export default function About() {
 
             <div className="container-custom relative z-10">
                 {/* Main Grid Layout */}
-                <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16 items-start max-w-7xl mx-auto">
+                <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 sm:gap-10 lg:gap-16 items-start max-w-7xl mx-auto px-4 sm:px-6">
                     {/* Left Side - Profile Image (2 columns) */}
                     <motion.div
                         initial={{ opacity: 0, x: -50 }}
@@ -63,7 +63,7 @@ export default function About() {
                         viewport={{ once: true }}
                         className="flex justify-center lg:justify-start lg:pt-0 lg:col-span-2"
                     >
-                        <div className="relative w-full max-w-sm h-[500px] overflow-hidden">
+                        <div className="relative w-full max-w-[240px] sm:max-w-xs h-[240px] sm:h-[320px] lg:h-[450px] overflow-hidden">
                             <img
                                 src={profileImage}
                                 alt="Manan Batra"
@@ -80,27 +80,27 @@ export default function About() {
                         className="flex flex-col lg:col-span-3"
                     >
                         {/* Heading with decorative icon */}
-                        <div className="flex items-center gap-3 mb-6">
-                            <h2 className="text-4xl md:text-5xl font-bold text-[var(--text-primary)]">
+                        <div className="flex items-center justify-center lg:justify-start gap-3 mb-5 sm:mb-6">
+                            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-5xl font-bold text-[var(--text-primary)]">
                                 About Me
                             </h2>
-                            <svg className="w-8 h-8 text-accent-500" fill="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-accent-500" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M8 5v14l11-7z" />
                             </svg>
                         </div>
 
                         {/* Description */}
-                        <p className="text-[var(--text-primary)] text-lg mb-4 leading-relaxed">
+                        <p className="text-[var(--text-primary)] text-xs sm:text-sm md:text-base lg:text-lg mb-2 sm:mb-3 md:mb-4 leading-relaxed text-center lg:text-left">
                             I'm a <span className="text-primary-400 font-semibold">Software Developer</span> passionate about building secure, scalable solutions. My work spans full-stack development, cloud computing, and cybersecurity — transforming complex challenges into impactful, real-world software experiences.
                         </p>
 
                         {/* Quote */}
-                        <p className="text-[var(--text-secondary)] italic text-base mb-8 border-l-4 border-primary-400 pl-4">
+                        <p className="text-[var(--text-secondary)] italic text-[10px] sm:text-xs md:text-sm lg:text-base mb-4 sm:mb-6 md:mb-8 border-l-2 sm:border-l-4 border-primary-400 pl-3 sm:pl-4 text-center lg:text-left">
                             "Building scalable apps, engineering backends, deploying services, and drinking coffee."
                         </p>
 
                         {/* Feature Cards */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 lg:gap-6">
                             {features.map((feature, index) => (
                                 <motion.div
                                     key={index}
@@ -109,17 +109,17 @@ export default function About() {
                                     viewport={{ once: true }}
                                     transition={{ delay: index * 0.1 }}
                                     whileHover={{ y: -4, scale: 1.02 }}
-                                    className="bg-[var(--bg-secondary)] rounded-xl p-5 border border-[var(--border-color)] hover:border-primary-400/50 transition-all group"
+                                    className="bg-[var(--bg-secondary)] rounded-xl p-3 sm:p-4 md:p-5 border border-[var(--border-color)] hover:border-primary-400/50 transition-all group"
                                 >
-                                    <div className="flex items-start gap-3">
+                                    <div className="flex items-start gap-2 sm:gap-3">
                                         <div className={`${feature.color} group-hover:scale-110 transition-transform`}>
                                             {feature.icon}
                                         </div>
                                         <div className="flex-1">
-                                            <h3 className="text-[var(--text-primary)] font-bold text-lg mb-1">
+                                            <h3 className="text-[var(--text-primary)] font-bold text-sm sm:text-base md:text-lg mb-0.5 sm:mb-1">
                                                 {feature.title}
                                             </h3>
-                                            <p className="text-[var(--text-secondary)] text-sm">
+                                            <p className="text-[var(--text-secondary)] text-xs sm:text-sm">
                                                 {feature.description}
                                             </p>
                                         </div>

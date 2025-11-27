@@ -29,7 +29,7 @@ export default function Hero() {
     return (
         <section
             id="hero"
-            className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[var(--bg-primary)]"
+            className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[var(--bg-primary)] pt-24 sm:pt-32 lg:pt-20"
         >
             {/* Animated glow orbs - More subtle */}
             <motion.div
@@ -66,13 +66,13 @@ export default function Hero() {
                 animate="animate"
                 className="container-custom relative z-10"
             >
-                <div className="flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-20 max-w-7xl mx-auto">
+                <div className="flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-20 max-w-7xl mx-auto px-6 sm:px-8 lg:px-0">
                     {/* Text Content - Left Side */}
                     <div className="flex-1 text-center lg:text-left order-2 lg:order-1">
                         {/* Greeting */}
                         <motion.p
                             variants={staggerItem}
-                            className="text-base md:text-lg text-primary-400 font-medium mb-3 tracking-wide"
+                            className="text-xs sm:text-sm md:text-base lg:text-lg text-primary-400 font-medium mb-1.5 sm:mb-2 md:mb-3 tracking-wide"
                         >
                             Hi there! I'm
                         </motion.p>
@@ -80,7 +80,7 @@ export default function Hero() {
                         {/* Name */}
                         <motion.h1
                             variants={staggerItem}
-                            className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
+                            className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-3 sm:mb-4 md:mb-6 leading-tight"
                         >
                             <span className="bg-gradient-to-r from-[var(--text-primary)] to-primary-300 bg-clip-text text-transparent">
                                 {resumeData.name}
@@ -95,7 +95,7 @@ export default function Hero() {
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -20 }}
                                 transition={{ duration: 0.5 }}
-                                className="text-2xl md:text-3xl lg:text-4xl font-semibold text-primary-400"
+                                className="text-lg sm:text-xl md:text-2xl lg:text-4xl font-semibold text-primary-400"
                             >
                                 {titles[titleIndex]}
                             </motion.h2>
@@ -104,7 +104,7 @@ export default function Hero() {
                         {/* Description */}
                         <motion.p
                             variants={staggerItem}
-                            className="text-lg md:text-xl text-[var(--text-secondary)] mb-10 leading-relaxed max-w-2xl mx-auto lg:mx-0"
+                            className="text-sm sm:text-base md:text-lg text-[var(--text-secondary)] mb-6 sm:mb-8 md:mb-10 leading-relaxed max-w-2xl mx-auto lg:mx-0"
                         >
                             Passionate about creating beautiful, functional web experiences.
                             Specializing in modern JavaScript frameworks and responsive design.
@@ -113,7 +113,7 @@ export default function Hero() {
                         {/* CTA Buttons */}
                         <motion.div
                             variants={staggerItem}
-                            className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center"
+                            className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start items-stretch sm:items-center"
                         >
                             <Button
                                 as="a"
@@ -123,7 +123,7 @@ export default function Hero() {
                                 rel="noopener noreferrer"
                                 variant="primary"
                                 size="lg"
-                                className="min-w-[200px] shadow-lg hover:shadow-glow transition-all flex items-center gap-2"
+                                className="w-full sm:w-auto sm:min-w-[180px] text-sm sm:text-base px-4 sm:px-6 py-2 sm:py-3 shadow-lg hover:shadow-glow transition-all flex items-center justify-center gap-2"
                             >
                                 Download Resume
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -134,7 +134,7 @@ export default function Hero() {
                                 variant="outline"
                                 size="lg"
                                 onClick={() => scrollToElement('contact')}
-                                className="min-w-[180px] flex items-center gap-2"
+                                className="w-full sm:w-auto sm:min-w-[160px] text-sm sm:text-base px-4 sm:px-6 py-2 sm:py-3 flex items-center justify-center gap-2"
                             >
                                 Contact Me
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -148,7 +148,7 @@ export default function Hero() {
                     <motion.div variants={staggerItem} className="flex-shrink-0 order-1 lg:order-2">
                         <motion.div
                             whileHover={{ scale: 1.02 }}
-                            className="relative w-72 h-72 md:w-96 md:h-96 lg:w-[450px] lg:h-[450px]"
+                            className="relative w-40 h-40 sm:w-56 sm:h-56 md:w-72 md:h-72 lg:w-80 lg:h-80 xl:w-96 xl:h-96"
                             style={{
                                 filter: 'drop-shadow(0 0 30px rgba(34, 197, 94, 0.3)) drop-shadow(0 0 60px rgba(34, 197, 94, 0.15))'
                             }}
@@ -175,7 +175,7 @@ export default function Hero() {
                                 initial={{ opacity: 0, scale: 0.8 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ delay: 1, type: "spring" }}
-                                className="absolute -left-4 bottom-8 z-20 bg-[var(--bg-primary)] border border-[var(--border-color)]/30 px-4 py-2 rounded-full flex items-center gap-2"
+                                className="absolute -left-10 sm:-left-16 bottom-4 sm:bottom-8 z-20 bg-[var(--bg-primary)] border border-[var(--border-color)]/30 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full flex items-center gap-2 shadow-lg"
                             >
                                 <span className="relative flex h-2.5 w-2.5">
                                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
@@ -188,6 +188,7 @@ export default function Hero() {
                         </motion.div>
                     </motion.div>
                 </div>
+
             </motion.div>
         </section>
     );

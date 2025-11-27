@@ -46,12 +46,12 @@ export default function BackToTop() {
                     whileHover={{ scale: 1.1, y: -3 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={scrollToTop}
-                    className="fixed bottom-8 right-8 z-50 p-4 rounded-full bg-gradient-to-r from-primary-400 to-primary-500 text-white shadow-2xl hover:shadow-glow-lg transition-all border-2 border-primary-400/30 hover:border-primary-400"
+                    className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-50 p-3 sm:p-4 rounded-full bg-gradient-to-r from-primary-400 to-primary-500 text-white shadow-2xl hover:shadow-glow-lg transition-all border-2 border-primary-400/30 hover:border-primary-400"
                     aria-label="Back to top"
                     title="Back to top"
                 >
                     <svg
-                        className="w-6 h-6"
+                        className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"

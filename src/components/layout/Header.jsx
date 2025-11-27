@@ -151,40 +151,35 @@ export default function Header() {
                 {/* Mobile Menu */}
                 {isMobileMenuOpen && (
                     <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="md:hidden pb-4 bg-[var(--bg-secondary)]/95 backdrop-blur-lg rounded-b-xl"
+                        initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                        className="absolute top-16 right-4 w-48 bg-[var(--bg-secondary)] rounded-xl shadow-xl border border-[var(--border-color)] overflow-hidden md:hidden"
                     >
-                        <div className="pt-2 space-y-1">
+                        <div className="py-1">
                             {navItems.map((item) => (
                                 <button
                                     key={item.id}
                                     onClick={() => handleNavClick(item.id)}
-                                    className={`block w-full text-left px-4 py-3 rounded-lg transition-colors ${activeSection === item.id
-                                        ? 'bg-primary-400/10 text-primary-400'
-                                        : 'text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)]'
+                                    className={`block w-full text-left px-4 py-2 text-sm transition-colors ${activeSection === item.id
+                                        ? 'bg-primary-400/10 text-primary-400 font-medium'
+                                        : 'text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] hover:text-[var(--text-primary)]'
                                         }`}
                                 >
                                     {item.label}
                                 </button>
                             ))}
 
-                            {/* Resume Button - Mobile - Only visible when not on hero section */}
-                            {activeSection !== 'hero' && activeSection !== '' && (
-                                <a
-                                    href={resumePDF}
-                                    download="Manan_Batra_Resume.pdf"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex items-center justify-center gap-2 mx-4 mt-2 px-4 py-3 bg-primary-400/10 text-primary-400 font-medium rounded-lg border border-primary-400/30 hover:bg-primary-400/20 transition-all"
-                                >
-                                    Resume
-                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                    </svg>
-                                </a>
-                            )}
+                            {/* Resume Button - Mobile */}
+                            <a
+                                href={resumePDF}
+                                download="Manan_Batra_Resume.pdf"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block w-full text-left px-4 py-2 text-sm text-primary-400 hover:bg-primary-400/10 transition-colors border-t border-[var(--border-color)]"
+                            >
+                                Resume
+                            </a>
                         </div>
                     </motion.div>
                 )}

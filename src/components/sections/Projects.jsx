@@ -13,9 +13,7 @@ const projectImages = {
     'Portfolio Website': portfolioImg
 };
 
-/**
- * Projects Section - Completely Restructured with Enhanced UI/UX
- */
+// Projects Section - Completely Restructured with Enhanced UI/UX
 export default function Projects() {
     const projects = resumeData.projects || [];
     const [expandedProject, setExpandedProject] = useState(null);
@@ -38,7 +36,7 @@ export default function Projects() {
             id="projects"
             className="section-padding bg-[var(--bg-primary)] relative overflow-hidden"
         >
-            {/* Enhanced Background Effects */}
+            // Enhanced Background Effects
             <div className="absolute inset-0">
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary-500/5 to-transparent" />
                 <div
@@ -57,16 +55,16 @@ export default function Projects() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="text-center mb-20"
+                    className="text-center mb-16 sm:mb-20"
                 >
-                    <h2 className="text-4xl md:text-6xl font-bold mb-6">
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6">
                         <span className="text-[var(--text-primary)]">Featured </span>
                         <span className="bg-gradient-to-r from-primary-400 to-secondary-400 bg-clip-text text-transparent">
                             Projects
                         </span>
                     </h2>
 
-                    <p className="text-[var(--text-secondary)] mt-4 max-w-2xl mx-auto text-lg leading-relaxed">
+                    <p className="text-[var(--text-secondary)] mt-3 sm:mt-4 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed px-4">
                         Explore my recent work showcasing modern web development, innovative solutions, and best practices
                     </p>
                 </motion.div>
@@ -77,7 +75,7 @@ export default function Projects() {
                     initial="initial"
                     whileInView="animate"
                     viewport={{ once: true }}
-                    className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 max-w-7xl mx-auto"
+                    className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 max-w-7xl mx-auto px-4 sm:px-0"
                 >
                     {projects.map((project, index) => {
                         const isExpanded = expandedProject === index;
@@ -96,9 +94,9 @@ export default function Projects() {
                                 onHoverEnd={() => setHoveredIndex(null)}
                                 className="group relative"
                             >
-                                {/* Animated Glow Effect */}
+                                {/* Animated Glow Effect - Reduced on mobile */}
                                 <motion.div
-                                    className="absolute -inset-0.5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                                    className="absolute -inset-0.5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 hidden sm:block"
                                     style={{
                                         background: 'linear-gradient(135deg, var(--color-primary-400), var(--color-secondary-400))',
                                         filter: 'blur(13px)',
@@ -118,9 +116,9 @@ export default function Projects() {
                                     onClick={() => project.link && window.open(project.link, '_blank')}
                                     className="relative bg-gradient-to-br from-[var(--bg-tertiary)] to-[var(--bg-secondary)] rounded-3xl overflow-hidden border border-[var(--border-color)] group-hover:border-primary-400/60 transition-all duration-500 shadow-2xl hover:shadow-glow-lg cursor-pointer"
                                 >
-                                    <div className="p-8">
+                                    <div className="p-5 sm:p-6 md:p-8">
                                         {/* Project Image */}
-                                        <div className="relative h-56 mb-6 overflow-hidden rounded-xl group-hover:shadow-md transition-all duration-500">
+                                        <div className="relative h-40 sm:h-48 md:h-56 mb-4 sm:mb-6 overflow-hidden rounded-xl group-hover:shadow-md transition-all duration-500">
                                             <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-secondary)] to-transparent opacity-60 z-10" />
                                             <img
                                                 src={projectImage}
@@ -136,7 +134,7 @@ export default function Projects() {
                                         </div>
 
                                         {/* Project Header with Icon, Title, and Links */}
-                                        <div className="flex items-start justify-between mb-6 gap-4">
+                                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 sm:mb-6 gap-3 sm:gap-4">
                                             <div className="flex items-center gap-3">
                                                 {/* Icon with animated background */}
                                                 <motion.div
@@ -145,7 +143,7 @@ export default function Projects() {
                                                 >
                                                     <div className="absolute inset-0 bg-gradient-to-br from-primary-400/30 to-secondary-400/30 rounded-xl blur-md" />
                                                     <div className="relative p-2 bg-gradient-to-br from-primary-400/10 to-secondary-400/10 rounded-xl border border-primary-400/30">
-                                                        <svg className="w-6 h-6 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <svg className="w-5 h-5 sm:w-6 sm:h-6 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                                                         </svg>
                                                     </div>
@@ -153,7 +151,7 @@ export default function Projects() {
 
                                                 {/* Project Title */}
                                                 <motion.h3
-                                                    className="text-xl font-bold text-[var(--text-primary)] group-hover:text-primary-400 transition-colors duration-300"
+                                                    className="text-lg sm:text-xl font-bold text-[var(--text-primary)] group-hover:text-primary-400 transition-colors duration-300"
                                                     animate={isHovered ? { x: [0, 5, 0] } : {}}
                                                     transition={{ duration: 0.5 }}
                                                 >
@@ -162,7 +160,7 @@ export default function Projects() {
                                             </div>
 
                                             {/* Action Links - Always Visible */}
-                                            <div className="flex gap-2 mt-1 shrink-0">
+                                            <div className="flex gap-2 shrink-0">
                                                 {project.github && (
                                                     <a
                                                         href={project.github}
