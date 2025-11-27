@@ -123,6 +123,13 @@ export default function Experience() {
                                                                         {exp.title}
                                                                     </h3>
 
+                                                                    {/* Period - Mobile Only (Below Title) */}
+                                                                    <div className="block sm:hidden mb-3">
+                                                                        <span className="text-primary-400 text-xs font-medium">
+                                                                            {exp.period}
+                                                                        </span>
+                                                                    </div>
+
                                                                     {/* Company */}
                                                                     <div className="flex items-start gap-2 mb-0">
                                                                         <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--text-secondary)] mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -134,8 +141,8 @@ export default function Experience() {
                                                                     </div>
                                                                 </div>
 
-                                                                {/* Right - Period */}
-                                                                <div className="flex-shrink-0 order-1 sm:order-2">
+                                                                {/* Right - Period (Desktop Only) */}
+                                                                <div className="hidden sm:block flex-shrink-0 order-1 sm:order-2">
                                                                     <span className="inline-flex items-center justify-center px-3 sm:px-4 py-1.5 sm:py-2 bg-primary-400/10 text-primary-400 text-xs sm:text-sm font-bold rounded-lg border border-primary-400/20 group-hover:bg-primary-400/20 transition-colors">
                                                                         {exp.period}
                                                                     </span>
@@ -156,19 +163,21 @@ export default function Experience() {
                                                                         </div>
                                                                     ))}
                                                                     {showReadMore && (
-                                                                        <button
-                                                                            onClick={(e) => {
-                                                                                e.preventDefault();
-                                                                                e.stopPropagation();
-                                                                                toggleExpanded(idx);
-                                                                            }}
-                                                                            className="text-primary-400 text-xs font-medium hover:text-primary-300 transition-colors mt-2 flex items-center gap-1"
-                                                                        >
-                                                                            {isExpanded ? 'Read Less' : 'Read More'}
-                                                                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isExpanded ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"} />
-                                                                            </svg>
-                                                                        </button>
+                                                                        <div className="flex justify-center sm:justify-start w-full">
+                                                                            <button
+                                                                                onClick={(e) => {
+                                                                                    e.preventDefault();
+                                                                                    e.stopPropagation();
+                                                                                    toggleExpanded(idx);
+                                                                                }}
+                                                                                className="text-primary-400 text-xs font-medium hover:text-primary-300 transition-colors mt-2 flex items-center gap-1"
+                                                                            >
+                                                                                {isExpanded ? 'Read Less' : 'Read More'}
+                                                                                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isExpanded ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"} />
+                                                                                </svg>
+                                                                            </button>
+                                                                        </div>
                                                                     )}
                                                                 </div>
                                                             )}
@@ -186,6 +195,13 @@ export default function Experience() {
                                                                         {exp.title}
                                                                     </h3>
 
+                                                                    {/* Period - Mobile Only (Below Title) */}
+                                                                    <div className="block sm:hidden mb-3">
+                                                                        <span className="text-primary-400 text-xs font-medium">
+                                                                            {exp.period}
+                                                                        </span>
+                                                                    </div>
+
                                                                     {/* Company */}
                                                                     <div className="flex items-start gap-2 mb-0">
                                                                         <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--text-secondary)] mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -197,8 +213,8 @@ export default function Experience() {
                                                                     </div>
                                                                 </div>
 
-                                                                {/* Right - Period */}
-                                                                <div className="flex-shrink-0 order-1 sm:order-2">
+                                                                {/* Right - Period (Desktop Only) */}
+                                                                <div className="hidden sm:block flex-shrink-0 order-1 sm:order-2">
                                                                     <span className="inline-flex items-center justify-center px-3 sm:px-4 py-1.5 sm:py-2 bg-primary-400/10 text-primary-400 text-xs sm:text-sm font-bold rounded-lg border border-primary-400/20 group-hover:bg-primary-400/20 transition-colors">
                                                                         {exp.period}
                                                                     </span>
@@ -219,15 +235,17 @@ export default function Experience() {
                                                                         </div>
                                                                     ))}
                                                                     {showReadMore && (
-                                                                        <button
-                                                                            onClick={() => toggleExpanded(idx)}
-                                                                            className="text-primary-400 text-xs font-medium hover:text-primary-300 transition-colors mt-2 flex items-center gap-1"
-                                                                        >
-                                                                            {isExpanded ? 'Read Less' : 'Read More'}
-                                                                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isExpanded ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"} />
-                                                                            </svg>
-                                                                        </button>
+                                                                        <div className="flex justify-center sm:justify-start w-full">
+                                                                            <button
+                                                                                onClick={() => toggleExpanded(idx)}
+                                                                                className="text-primary-400 text-xs font-medium hover:text-primary-300 transition-colors mt-2 flex items-center gap-1"
+                                                                            >
+                                                                                {isExpanded ? 'Read Less' : 'Read More'}
+                                                                                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isExpanded ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"} />
+                                                                                </svg>
+                                                                            </button>
+                                                                        </div>
                                                                     )}
                                                                 </div>
                                                             )}
