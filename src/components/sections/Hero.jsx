@@ -7,16 +7,15 @@ import resumeData from '@/data/resume.json';
 import profileImage from '@/assets/manan_image.JPG';
 import resumePDF from '@/assets/Manan_Batra_Resume.pdf';
 
+
 /**
  * Hero Section - Enhanced Professional Design
  */
 export default function Hero() {
     const [titleIndex, setTitleIndex] = useState(0);
     const titles = [
-        'Frontend Developer',
-        'React JS Specialist',
-        'UI/UX Enthusiast',
-        'Web Developer',
+        'Full Stack Web Developer',
+        'MERN Stack Developer',
     ];
 
     useEffect(() => {

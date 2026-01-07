@@ -13,9 +13,14 @@ export default function Skills() {
             icon: '💻',
         },
         {
-            title: 'Frameworks & Libraries',
+            title: 'Frontend Libraries / UI',
             skills: resumeData.skills.frameworks || [],
             icon: '⚛️',
+        },
+        {
+            title: 'Backend / Databases',
+            skills: resumeData.skills.backend || [],
+            icon: '🔙',
         },
         {
             title: 'Tools & Platforms',
@@ -57,7 +62,7 @@ export default function Skills() {
                 </motion.div>
 
                 {/* Skills Categories */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto px-4 sm:px-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 max-w-7xl mx-auto px-4 sm:px-6">
                     {skillCategories.map((category, categoryIndex) => (
                         <motion.div
                             key={category.title}

@@ -1,7 +1,7 @@
 {
   "name": "Manan Batra",
-  "title": "Frontend Developer",
-  "summary": "Frontend Developer specializing in React JS, with experience designing and delivering responsive, user-focused web applications that improve usability and engagement. Skilled in HTML5, CSS3, JavaScript, React, Tailwind, and modern UI frameworks. Skilled in building visually engaging interfaces, improving user experience through performance optimizations, and ensuring seamless functionality across devices. Demonstrated ability to collaborate in team environments, implement best coding practices, and deliver high-quality solutions that drive user engagement and satisfaction. Experienced in resolving technical challenges, collaborating in cross-functional teams, and consistently delivering projects on time while adapting to fast-paced environments.",
+  "title": "Full Stack Web Developer",
+  "summary": "Full Stack Web Developer specializing in the MERN stack (MongoDB, Express, React, Node.js). Experienced in designing and delivering scalable, user-focused web applications. Skilled in building dynamic interfaces, engineering robust backends, and ensuring seamless full-stack functionality. Demonstrated ability to collaborate in team environments, implement best coding practices, and deliver high-quality solutions that drive user engagement and satisfaction. Experienced in resolving technical challenges, collaborating in cross-functional teams, and consistently delivering projects on time while adapting to fast-paced environments.",
   "contact": {
     "email": "mananbatra1946@gmail.com",
     "phone": "+91-9813345151",
@@ -14,35 +14,31 @@
       "HTML5",
       "CSS3",
       "JavaScript",
-      "Python",
       "C++",
-      "Java",
       "SQL"
     ],
     "frameworks": [
-      "React JS",
-      "Node.JS",
-      "Express.JS",
-      "MongoDB",
-      "Next.JS",
+      "React.js",
       "Tailwind CSS",
-      "Bootstrap",
-      "REST API",
-      "Selenium",
-      "Framer Motion"
+      "Material UI",
+      "Framer Motion",
+      "GSAP",
+      "Three.js",
+      "Lucide React"
+    ],
+    "backend": [
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "REST APIs"
     ],
     "tools": [
-      "MySQL",
-      "PostgreSQL",
       "Git",
       "GitHub",
       "Postman",
       "VS Code",
-      "Selenium",
-      "Netlify",
-      "Vercel",
-      "Eclipse",
-      "IntelliJ"
+      "MySQL",
+      "Vercel"
     ]
   },
   "experience": [
@@ -58,12 +54,12 @@
     },
     {
       "company": "Wiperspray",
-      "title": "Frontend Web Developer Intern",
-      "period": "Jan 2024 - Present",
+      "title": "Full-Stack Web Developer",
+      "period": "May 2024 – Jan 2025",
       "highlights": [
-        "Collaborated with the core product team to design and develop responsive UIs across User, Client, and Admin applications, reducing user wait times by 20–30% through real-time updates and optimized flows.",
-        "Gained hands-on experience with React.js and modern frontend libraries, building scalable, reusable components in a component-driven architecture.",
-        "Worked with backend APIs to improve state management, delivering a smoother and more seamless user experience across applications."
+        "Collaborated with the core product team to design and develop responsive web applications across User, Client, and Admin platforms, reducing user wait times by 20–30% through optimized full-stack flows.",
+        "Gained hands-on experience with the MERN stack (MongoDB, Express, React, Node.js), building scalable, reusable components and robust APIs.",
+        "Worked on integrating backend APIs with frontend interfaces to improve state management, delivering a smoother and more seamless user experience."
       ]
     },
     {
@@ -80,7 +76,7 @@
   "projects": [
     {
       "name": "ViewTube ~ YouTube Clone",
-      "description": "A YouTube clone featuring video streaming with API integration and data fetching, resulting in 30% faster load times and improved user retention by 40%. Developed responsive UI with Tailwind CSS, ensuring accessibility compliance.",
+      "description": "Implemented real-time video streaming with API integration and optimized data fetching, resulting in 30% faster load times and improved user retention by 40%. Developed responsive UI with Tailwind CSS, ensuring accessibility compliance and increasing cross-device compatibility by 25%.",
       "bullets": [
         "Built a YouTube clone with video streaming and API integration",
         "Achieved 30% faster load times through optimized data fetching",
@@ -89,14 +85,14 @@
       ],
       "image": "/project-viewtube.png",
       "technologies": [
-        "React",
-        "Tailwind CSS",
-        "Node.js",
-        "MongoDB",
-        "Express.js",
+        "HTML5",
+        "CSS3",
         "JavaScript",
-        "HTML",
-        "CSS",
+        "React",
+        "Tailwind",
+        "API",
+        "Node",
+        "MongoDB",
         "Netlify"
       ],
       "github": "https://github.com/manan-b",
@@ -113,15 +109,15 @@
       ],
       "image": "/project-filmfizz.png",
       "technologies": [
-        "React",
-        "Node.js",
-        "Express.js",
-        "MongoDB",
-        "RESTful APIs",
-        "JavaScript",
         "HTML",
         "CSS",
-        "Tailwind CSS"
+        "JavaScript",
+        "Tailwind",
+        "API",
+        "React",
+        "Express",
+        "Node",
+        "MongoDB"
       ],
       "github": "https://github.com/mananbatra1946/Film-Fizz",
       "link": "https://film-fizz.netlify.app/"
@@ -152,19 +148,19 @@
     {
       "institution": "Chandigarh University",
       "degree": "B.E. Computer Science",
-      "period": "Sept 2021 - June 2025",
+      "period": "Sept 2021 – June 2025",
       "score": "CGPA: 76.10%"
     },
     {
       "institution": "National Public School",
       "degree": "Intermediate School",
-      "period": "Mar 2020 - Mar 2021",
+      "period": "Mar 2020 – Mar 2021",
       "score": "Percentage: 88.40%"
     },
     {
       "institution": "Little Angels School, Sonipat",
       "degree": "High School",
-      "period": "Mar 2018 - Mar 2019",
+      "period": "Mar 2018 – Mar 2019",
       "score": "Percentage: 89.40%"
     }
   ]

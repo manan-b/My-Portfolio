@@ -91,7 +91,7 @@ export default function About() {
 
                         {/* Description */}
                         <p className="text-[var(--text-primary)] text-xs sm:text-sm md:text-base lg:text-lg mb-2 sm:mb-3 md:mb-4 leading-relaxed text-center lg:text-left">
-                            I'm a <span className="text-primary-400 font-semibold">Software Developer</span> passionate about building secure, scalable solutions. My work spans full-stack development, cloud computing, and cybersecurity — transforming complex challenges into impactful, real-world software experiences.
+                            I'm a <span className="text-primary-400 font-semibold">Full Stack Web Developer</span> specializing in the MERN stack. My expertise spans building dynamic user interfaces with React and architecting robust backends with Node.js and MongoDB. I am passionate about creating seamless, scalable web applications that solve real-world problems.
                         </p>
 
                         {/* Quote */}
