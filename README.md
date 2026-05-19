@@ -1,8 +1,7 @@
 # Personal Portfolio Website
 
 A modern, production-quality personal portfolio website built with Vite, React, TailwindCSS, and Framer Motion. Features PDF-driven content extraction for zero hardcoding.
-
-![Portfolio Demo](https://manan-b.github.io/My-Portfolio/)
+Portfolio Live Link : https://manan-b.github.io/My-Portfolio/
 
 ## ✨ Features
 
