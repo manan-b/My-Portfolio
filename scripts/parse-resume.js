@@ -6,7 +6,7 @@ import pdf from 'pdf-parse';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const PDF_PATH = path.join(__dirname, '..', 'My Resume.pdf');
+const PDF_PATH = path.join(__dirname, '..', 'Manan\'s Resume.pdf');
 const OUTPUT_PATH = path.join(__dirname, '..', 'src', 'data', 'resume.json');
 
 /**
@@ -67,19 +67,61 @@ function extractSection(text, sectionName, nextSection = null) {
 }
 
 /**
- * Parse skills from section text
+ * Parse skills from section text and categorize them
  */
 function parseSkills(text) {
-    if (!text) return [];
+    if (!text) return { frontend: [], backend_data: [], tools: [] };
 
     // Split by common delimiters
     const skills = text
-        .split(/[,•\n|]/)
-        .map((s) => s.trim())
+        .split('\n')
+        .flatMap(line => {
+            const cleanLine = line.includes(':') ? line.substring(line.indexOf(':') + 1) : line;
+            return cleanLine.split(/[,•|]/).map(s => s.trim());
+        })
         .filter((s) => s.length > 0 && s.length < 50)
-        .filter((s) => !s.match(/^(Skills?|Technical|Languages?):?$/i));
+        .filter((s) => !s.match(/^(Skills?|Technical|Languages?|Frameworks?|Tools?|Backend?|Frontend?|Data Engineering|Cloud):?$/i));
 
-    return [...new Set(skills)]; // Remove duplicates
+    const uniqueSkills = [...new Set(skills)]; // Remove duplicates
+
+    const categories = {
+        frontend: [],
+        backend_data: [],
+        tools: []
+    };
+
+    const knownFrontend = ['HTML', 'HTML5', 'CSS', 'CSS3', 'JavaScript', 'React', 'React.js', 'Tailwind', 'Tailwind CSS', 'Material UI', 'Framer Motion', 'GSAP', 'Three.js', 'Lucide React'];
+    const knownBackendData = ['Node.js', 'Node', 'Express', 'Express.js', 'MongoDB', 'REST APIs', 'SQL', 'C++', 'Python', 'Apache Spark', 'PySpark', 'Databricks', 'Delta Lake', 'ETL Pipelines', 'Data Warehousing', 'Medallion Architecture', 'AWS', 'BigQuery', 'Redshift', 'Hadoop'];
+    const knownTools = ['Git', 'GitHub', 'Postman', 'VS Code', 'MySQL', 'Vercel', 'Netlify'];
+
+    uniqueSkills.forEach(skill => {
+        let placed = false;
+        const skillLower = skill.toLowerCase();
+
+        // Exact match or contains for precision
+        const isMatch = (keyword) => {
+            const kw = keyword.toLowerCase();
+            return skillLower === kw || skillLower.includes(kw);
+        };
+
+        if (knownFrontend.some(isMatch)) {
+            categories.frontend.push(skill);
+            placed = true;
+        } else if (knownBackendData.some(isMatch)) {
+            categories.backend_data.push(skill);
+            placed = true;
+        } else if (knownTools.some(isMatch)) {
+            categories.tools.push(skill);
+            placed = true;
+        }
+
+        if (!placed) {
+            // Default to tools if unknown
+            categories.tools.push(skill);
+        }
+    });
+
+    return categories;
 }
 
 /**
@@ -97,79 +139,75 @@ function parseExperience(text) {
     for (const line of lines) {
         const trimmed = line.trim();
 
-        // Check if it's a date pattern (YYYY - YYYY or Month YYYY - Present, etc.)
-        const datePattern = /\d{4}|Present|Current|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec/i;
-        const hasDash = trimmed.includes('-') || trimmed.includes('–') || trimmed.includes('—');
-
-        if (datePattern.test(trimmed) && hasDash) {
-            // Save previous entry
+        // New experience block starts if it has a pipe | and dates
+        if (trimmed.includes('|')) {
             if (current) {
                 current.description = description.join(' ');
-                current.highlights = description.filter((d) => d.startsWith('•') || d.startsWith('-'));
+                current.highlights = description.filter((d) => d.length > 5 && !d.startsWith('•'));
                 experiences.push(current);
             }
 
-            // Start new entry
-            current = {
-                title: '',
-                company: '',
-                period: trimmed,
-                description: '',
-                highlights: [],
-            };
+            // Format: Company| TitleDate (e.g., EOXS| Software Developer InternJan 2025 – July 2025)
+            const parts = trimmed.split('|');
+            const company = parts[0].trim();
+            const rest = parts[1] ? parts[1].trim() : '';
+
+            // Extract date from the end of title
+            const dateMatch = rest.match(/((?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* \d{4}.*)$/i);
+            let period = '';
+            let title = rest;
+            if (dateMatch) {
+                period = dateMatch[1];
+                title = rest.replace(period, '').trim();
+            }
+
+            current = { title, company, period, description: '', highlights: [] };
             description = [];
-        } else if (current && !current.title) {
-            current.title = trimmed;
-        } else if (current && !current.company && current.title && trimmed !== current.title) {
-            current.company = trimmed;
-        } else if (current && trimmed) {
+        } else if (current && trimmed !== '•') {
             description.push(trimmed);
         }
     }
 
-    // Save last entry
     if (current) {
         current.description = description.join(' ');
-        current.highlights = description.filter((d) => d.startsWith('•') || d.startsWith('-'));
+        current.highlights = description.filter((d) => d.length > 5 && !d.startsWith('•'));
         experiences.push(current);
     }
 
     return experiences;
 }
 
-/**
- * Parse education entries
- */
+/* Parse education entries */
 function parseEducation(text) {
     if (!text) return [];
 
     const education = [];
     const lines = text.split('\n').filter((l) => l.trim());
 
-    let current = null;
+    for (let i = 0; i < lines.length; i += 2) {
+        const line1 = lines[i];
+        const line2 = lines[i + 1];
+        if (!line1 || !line2) break;
 
-    for (const line of lines) {
-        const trimmed = line.trim();
-        const datePattern = /\d{4}|Present|Expected/i;
-
-        if (datePattern.test(trimmed) && (trimmed.includes('-') || trimmed.includes('–'))) {
-            if (current) {
-                education.push(current);
-            }
-            current = {
-                degree: '',
-                institution: '',
-                period: trimmed,
-            };
-        } else if (current && !current.degree) {
-            current.degree = trimmed;
-        } else if (current && !current.institution && trimmed !== current.degree) {
-            current.institution = trimmed;
+        // "Chandigarh UniversitySept 2021 - June 2025"
+        let institution = line1;
+        let period = '';
+        const dateMatch = line1.match(/((?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* \d{4}.*)$/i);
+        if (dateMatch) {
+            period = dateMatch[1];
+            institution = line1.replace(period, '').trim();
         }
-    }
 
-    if (current) {
-        education.push(current);
+        // "B.E. Computer Science76.10%"
+        let degree = line2;
+        let score = '';
+        const scoreMatch = line2.match(/(\d+\.\d+%|\d+\.\d+\s*(?:CGPA)?)$/i);
+        if (scoreMatch) {
+            score = scoreMatch[1];
+            degree = line2.replace(score, '').trim();
+        }
+
+        education.push({ institution, degree, period, score: score ? `Score: ${score}` : '' });
     }
 
     return education;
@@ -182,40 +220,46 @@ function parseProjects(text) {
     if (!text) return [];
 
     const projects = [];
-    const sections = text.split(/\n(?=[A-Z])/);
+    const lines = text.split('\n').filter((l) => l.trim());
 
-    for (const section of sections) {
-        const lines = section.split('\n').filter((l) => l.trim());
-        if (lines.length === 0) continue;
+    let current = null;
+    let description = [];
 
-        const project = {
-            name: lines[0].trim(),
-            description: '',
-            technologies: [],
-            link: '',
-        };
+    for (const line of lines) {
+        const trimmed = line.trim();
 
-        for (let i = 1; i < lines.length; i++) {
-            const line = lines[i].trim();
-
-            if (line.includes('http://') || line.includes('https://')) {
-                project.link = line;
-            } else if (line.toLowerCase().includes('tech') || line.toLowerCase().includes('stack')) {
-                project.technologies = line
-                    .replace(/.*?:/i, '')
-                    .split(/[,|]/)
-                    .map((t) => t.trim())
-                    .filter((t) => t);
-            } else {
-                project.description += line + ' ';
+        if (trimmed.includes('|')) {
+            if (current) {
+                current.description = description.join(' ');
+                current.bullets = description.filter(d => d.length > 10).map(d => d.startsWith('•') ? d.substring(1).trim() : d);
+                projects.push(current);
             }
-        }
 
-        project.description = project.description.trim();
+            // Format: ViewTube - YouTube Clone| HTML5, CSS3...May 2024
+            const parts = trimmed.split('|');
+            const name = parts[0].trim();
+            const rest = parts[1] || '';
 
-        if (project.name) {
-            projects.push(project);
+            const dateMatch = rest.match(/((?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* \d{4}.*)$/i);
+            let period = '';
+            let techs = rest;
+            if (dateMatch) {
+                period = dateMatch[1];
+                techs = rest.replace(period, '').trim();
+            }
+
+            const technologies = techs.split(/[,•\n|]/).map(t => t.trim()).filter(t => t);
+            current = { name, description: '', bullets: [], technologies, period };
+            description = [];
+        } else if (current && trimmed !== '•') {
+            description.push(trimmed);
         }
+    }
+
+    if (current) {
+        current.description = description.join(' ');
+        current.bullets = description.filter(d => d.length > 10).map(d => d.startsWith('•') ? d.substring(1).trim() : d);
+        projects.push(current);
     }
 
     return projects;
@@ -275,60 +319,76 @@ async function parseResume() {
         const github = extractGitHub(text);
         const location = extractLocation(text);
 
-        // Extract sections (try common variations)
-        const summaryText = extractSection(
-            text,
-            '(Summary|Profile|About|Objective)',
-            '(Skills|Experience|Education)'
-        );
+        // Split text into arrays of lines
+        const lines = text.split('\n').map(l => l.trim()).filter(l => l);
 
-        const skillsText = extractSection(
-            text,
-            '(Skills|Technical Skills|Competencies)',
-            '(Experience|Education|Projects)'
-        );
+        // Find headers
+        const headers = {
+            Education: lines.findIndex(l => l === 'Education'),
+            Summary: lines.findIndex(l => l === 'Professional Summary' || l === 'Summary'),
+            Skills: lines.findIndex(l => l === 'Skills'),
+            Projects: lines.findIndex(l => l === 'Projects'),
+            Experience: lines.findIndex(l => l === 'Experience'),
+            Certifications: lines.findIndex(l => l === 'Certifications')
+        };
 
-        const experienceText = extractSection(
-            text,
-            '(Experience|Work Experience|Employment)',
-            '(Education|Projects|Skills)'
-        );
+        // Sort headers by line index
+        const sortedHeaders = Object.entries(headers)
+            .filter(([_, index]) => index !== -1)
+            .sort((a, b) => a[1] - b[1]);
 
-        const educationText = extractSection(
-            text,
-            'Education',
-            '(Experience|Projects|Skills|Certifications)'
-        );
+        const sections = {};
+        for (let i = 0; i < sortedHeaders.length; i++) {
+            const [name, startIndex] = sortedHeaders[i];
+            const endIndex = i + 1 < sortedHeaders.length ? sortedHeaders[i + 1][1] : lines.length;
+            sections[name] = lines.slice(startIndex + 1, endIndex).join('\n');
+        }
 
-        const projectsText = extractSection(
-            text,
-            'Projects',
-            '(Education|Experience|Certifications|Skills)'
-        );
+        const summaryText = sections['Summary'] || '';
+        const skillsText = sections['Skills'] || '';
+        const experienceText = sections['Experience'] || '';
+        const educationText = sections['Education'] || '';
+        const projectsText = sections['Projects'] || '';
+        const certificationsText = sections['Certifications'] || '';
 
-        const certificationsText = extractSection(
-            text,
-            '(Certifications|Certificates|Achievements)',
-            '$'
-        );
+        // Read existing resume data to preserve projects, experience, education, etc.
+        let existingResumeData = {};
+        if (fs.existsSync(OUTPUT_PATH)) {
+            const fileContent = fs.readFileSync(OUTPUT_PATH, 'utf-8');
+            existingResumeData = JSON.parse(fileContent);
+        }
+
+        // Merge past skills with new extracted categories
+        const oldSkills = existingResumeData.skills || {};
+        const oldFrontend = [...(oldSkills.languages || []), ...(oldSkills.frameworks || [])].filter(s => ['HTML5', 'CSS3', 'JavaScript', 'React.js', 'Tailwind CSS', 'Material UI', 'Framer Motion', 'GSAP', 'Three.js', 'Lucide React'].includes(s));
+        const oldBackendData = [...(oldSkills.languages || []), ...(oldSkills.backend || [])].filter(s => ['Node.js', 'Express.js', 'MongoDB', 'REST APIs', 'SQL', 'C++'].includes(s));
+        const oldTools = oldSkills.tools || [];
+        
+        const newSkillsData = parseSkills(skillsText);
+        
+        const combinedSkills = {
+            frontend: [...new Set([...oldFrontend, ...newSkillsData.frontend])],
+            backend_data: [...new Set([...oldBackendData, ...newSkillsData.backend_data])],
+            tools: [...new Set([...oldTools, ...newSkillsData.tools])]
+        };
 
         // Parse extracted sections
         const resumeData = {
-            name,
-            title,
+            ...existingResumeData, // Keep existing fields like projects, experience, etc.
+            name: name || existingResumeData.name,
+            title: title || existingResumeData.title,
             contact: {
-                email,
-                phone,
-                location,
-                linkedin,
-                github,
+                ...existingResumeData.contact,
+                email: email || existingResumeData.contact?.email,
+                phone: phone || existingResumeData.contact?.phone,
+                location: location || existingResumeData.contact?.location,
+                linkedin: linkedin || existingResumeData.contact?.linkedin,
+                github: github || existingResumeData.contact?.github,
             },
-            summary: summaryText || 'Professional summary will appear here.',
-            skills: parseSkills(skillsText),
-            experience: parseExperience(experienceText),
-            education: parseEducation(educationText),
-            projects: parseProjects(projectsText),
-            certifications: parseCertifications(certificationsText),
+            summary: summaryText || existingResumeData.summary || 'Professional summary will appear here.',
+            skills: combinedSkills,
+            // We consciously intentionally skip overwriting experience, education, projects, certifications
+            // with parseExperience(text)/parseEducation(text) etc because the existing JSON is better formatted
         };
 
         // Ensure data directory exists
@@ -345,12 +405,9 @@ async function parseResume() {
         console.log('\nExtracted data summary:');
         console.log('- Name:', resumeData.name);
         console.log('- Title:', resumeData.title);
-        console.log('- Email:', resumeData.contact.email);
-        console.log('- Skills:', resumeData.skills.length);
-        console.log('- Experience entries:', resumeData.experience.length);
-        console.log('- Education entries:', resumeData.education.length);
-        console.log('- Projects:', resumeData.projects.length);
-        console.log('- Certifications:', resumeData.certifications.length);
+        console.log('- Skills updated:', resumeData.skills ? Object.keys(resumeData.skills).length : 0);
+        console.log('- Projects kept:', (resumeData.projects || []).length);
+        console.log('- Experience kept:', (resumeData.experience || []).length);
 
         return resumeData;
     } catch (error) {

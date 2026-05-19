@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { scrollToElement } from '@/lib/utils';
 import resumePDF from '@/assets/Manan_Batra_Resume.pdf';
+import ThemeToggle from '@/components/common/ThemeToggle';
 
-/**
- * Header Component - Dark theme with cyan accents
- */
 export default function Header() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -24,7 +22,6 @@ export default function Header() {
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 20);
-
             const sections = navItems.map((item) => item.id);
             for (const sectionId of sections) {
                 const element = document.getElementById(sectionId);
@@ -37,7 +34,6 @@ export default function Header() {
                 }
             }
         };
-
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
@@ -49,99 +45,116 @@ export default function Header() {
 
     return (
         <motion.header
-            initial={{ y: -100 }}
-            animate={{ y: 0 }}
-            className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${isScrolled
-                ? 'bg-[var(--bg-secondary)]/90 backdrop-blur-lg shadow-lg border-b border-[var(--border-color)]'
+            initial={{ y: -80, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
+                ? 'bg-[var(--bg-primary)]/90 backdrop-blur-xl border-b border-[var(--border-color)] shadow-[var(--shadow-sm)]'
                 : 'bg-transparent'
                 }`}
         >
+            {/* Scan line at top */}
+            <div
+                className="absolute top-0 left-0 right-0 h-[1px] pointer-events-none"
+                style={{ background: 'linear-gradient(90deg, transparent, var(--color-primary-400), transparent)' }}
+            />
+
             <nav className="container-custom">
                 <div className="flex items-center justify-between h-16">
+
                     {/* Logo */}
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.2 }}
-                        className="text-xl font-bold cursor-pointer"
+                        className="cursor-pointer flex items-center gap-1 group"
                         onClick={() => handleNavClick('hero')}
                     >
-                        <span className="text-primary-400">&lt;</span>
-                        <span className="text-[var(--text-primary)]">MB</span>
-                        <span className="text-primary-400">/&gt;</span>
+                        <div className="flex items-center px-2 py-1 rounded-md transition-all duration-300 group-hover:bg-primary-400/5">
+                            <span className="font-orbitron text-xl sm:text-2xl font-black tracking-widest relative">
+                                <span className="text-primary-400 transition-all duration-300">
+                                    &lt;
+                                </span>
+                                <span className="text-[var(--text-primary)] group-hover:text-white transition-all duration-300 mx-[1px]">
+                                    MB
+                                </span>
+                                <span className="text-primary-400 transition-all duration-300">
+                                    /&gt;
+                                </span>
+                            </span>
+                        </div>
                     </motion.div>
 
-                    {/* Desktop Navigation */}
-                    <div className="hidden md:flex items-center gap-8">
-                        {navItems.map((item, index) => (
-                            <motion.button
-                                key={item.id}
-                                initial={{ opacity: 0, y: -20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.1 * index }}
-                                onClick={() => handleNavClick(item.id)}
-                                className={`relative text-sm font-medium transition-colors ${activeSection === item.id
-                                    ? 'text-primary-400'
-                                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                                    }`}
-                            >
-                                {item.label}
-                                {activeSection === item.id && (
-                                    <motion.div
-                                        layoutId="activeSection"
-                                        className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary-400"
-                                    />
-                                )}
-                            </motion.button>
-                        ))}
+                    {/* Desktop Navigation & Actions */}
+                    <div className="hidden md:flex items-center gap-6">
+                        {/* Nav Links */}
+                        <div className="flex items-center gap-5">
+                            {navItems.map((item, index) => (
+                                <motion.button
+                                    key={item.id}
+                                    initial={{ opacity: 0, y: -16 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.05 * index }}
+                                    onClick={() => handleNavClick(item.id)}
+                                    className={`relative text-xs font-semibold tracking-widest uppercase font-orbitron transition-all duration-200 px-1 py-0.5 group ${activeSection === item.id
+                                        ? 'text-primary-400'
+                                        : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                                        }`}
+                                >
+                                    {/* Bracket hover effect */}
+                                    <span className="absolute -left-2 top-1/2 -translate-y-1/2 text-primary-400 opacity-0 group-hover:opacity-100 transition-opacity text-xs">[</span>
+                                    {item.label}
+                                    <span className="absolute -right-2 top-1/2 -translate-y-1/2 text-primary-400 opacity-0 group-hover:opacity-100 transition-opacity text-xs">]</span>
 
-                        {/* Resume Button - Only visible when not on hero section */}
-                        {activeSection !== 'hero' && activeSection !== '' && (
-                            <motion.a
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.8 }}
-                                href={resumePDF}
-                                download="Manan_Batra_Resume.pdf"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center gap-2 px-4 py-2 bg-primary-400/10 text-primary-400 text-sm font-medium rounded-lg border border-primary-400/30 hover:bg-primary-400/20 hover:border-primary-400 transition-all"
-                            >
-                                Resume
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                </svg>
-                            </motion.a>
-                        )}
+                                    {activeSection === item.id && (
+                                        <motion.div
+                                            layoutId="activeSection"
+                                            className="absolute -bottom-1 left-0 right-0 h-px"
+                                            style={{ background: 'linear-gradient(90deg, transparent, var(--color-primary-400), transparent)', boxShadow: '0 0 8px var(--glow-cyan)' }}
+                                        />
+                                    )}
+                                </motion.button>
+                            ))}
+                        </div>
+
+                        {/* Actions (Resume & Theme Toggle) */}
+                        <div className="flex items-center gap-4 border-l border-[var(--border-color)] pl-5">
+
+                            {/* Resume Button */}
+                            {activeSection !== 'hero' && activeSection !== '' && (
+                                <motion.a
+                                    initial={{ opacity: 0, scale: 0.8 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    href={resumePDF}
+                                    download="Manan_Batra_Resume.pdf"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="relative flex items-center gap-2 px-4 py-1.5 text-xs font-semibold font-orbitron tracking-widest uppercase text-primary-400 border border-[var(--border-color)] rounded hover:border-primary-400 hover:shadow-[var(--shadow-glow-sm)] transition-all overflow-hidden group"
+                                >
+                                    <span className="absolute inset-0 bg-primary-400/5 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-300" />
+                                    <span className="relative">Resume</span>
+                                    <svg className="w-3.5 h-3.5 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                    </svg>
+                                </motion.a>
+                            )}
+                            <ThemeToggle />
+                        </div>
                     </div>
 
                     {/* Mobile Menu Button */}
-                    <div className="md:hidden">
+                    <div className="md:hidden flex items-center gap-3">
+                        <ThemeToggle />
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className="p-2 text-[var(--text-primary)]"
+                            className="p-2 text-primary-400 hover:text-primary-300 transition-colors"
                             aria-label="Toggle menu"
                         >
-                            <svg
-                                className="w-6 h-6"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 {isMobileMenuOpen ? (
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                                 ) : (
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                                 )}
                             </svg>
                         </button>
@@ -149,41 +162,45 @@ export default function Header() {
                 </div>
 
                 {/* Mobile Menu */}
-                {isMobileMenuOpen && (
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95, y: -10 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                        className="absolute top-16 right-4 w-48 bg-[var(--bg-secondary)] rounded-xl shadow-xl border border-[var(--border-color)] overflow-hidden md:hidden"
-                    >
-                        <div className="py-1">
-                            {navItems.map((item) => (
-                                <button
-                                    key={item.id}
-                                    onClick={() => handleNavClick(item.id)}
-                                    className={`block w-full text-left px-4 py-2 text-sm transition-colors ${activeSection === item.id
-                                        ? 'bg-primary-400/10 text-primary-400 font-medium'
-                                        : 'text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] hover:text-[var(--text-primary)]'
-                                        }`}
+                <AnimatePresence>
+                    {isMobileMenuOpen && (
+                        <motion.div
+                            initial={{ opacity: 0, y: -10, scale: 0.97 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: -10, scale: 0.97 }}
+                            transition={{ duration: 0.2 }}
+                            className="absolute top-16 right-4 w-52 bg-[var(--bg-secondary)] rounded-lg border border-[var(--border-color)] shadow-[var(--shadow-lg)] overflow-hidden md:hidden"
+                        >
+                            {/* Top glow strip */}
+                            <div className="h-px w-full bg-gradient-to-r from-transparent via-primary-400 to-transparent opacity-50" />
+                            <div className="py-2">
+                                {navItems.map((item) => (
+                                    <button
+                                        key={item.id}
+                                        onClick={() => handleNavClick(item.id)}
+                                        className={`block w-full text-left px-4 py-2.5 text-xs font-orbitron tracking-widest uppercase transition-colors ${activeSection === item.id
+                                            ? 'bg-primary-400/10 text-primary-400'
+                                            : 'text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] hover:text-primary-400'
+                                            }`}
+                                    >
+                                        {item.label}
+                                    </button>
+                                ))}
+                                <div className="h-px mx-4 my-1 bg-[var(--border-color)]" />
+                                <a
+                                    href={resumePDF}
+                                    download="Manan_Batra_Resume.pdf"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="block w-full text-left px-4 py-2.5 text-xs font-orbitron tracking-widest uppercase text-primary-400 hover:bg-primary-400/10 transition-colors"
                                 >
-                                    {item.label}
-                                </button>
-                            ))}
-
-                            {/* Resume Button - Mobile */}
-                            <a
-                                href={resumePDF}
-                                download="Manan_Batra_Resume.pdf"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="block w-full text-left px-4 py-2 text-sm text-primary-400 hover:bg-primary-400/10 transition-colors border-t border-[var(--border-color)]"
-                            >
-                                Resume
-                            </a>
-                        </div>
-                    </motion.div>
-                )}
-            </nav>
-        </motion.header>
+                                    Resume ↓
+                                </a>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </nav >
+        </motion.header >
     );
 }

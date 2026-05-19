@@ -2,7 +2,7 @@
 
 A modern, production-quality personal portfolio website built with Vite, React, TailwindCSS, and Framer Motion. Features PDF-driven content extraction for zero hardcoding.
 
-![Portfolio Demo](/.gemini/antigravity/brain/609a8c55-33bf-4f2a-90e9-1262a6b3dbdc/portfolio_demo_1763795947106.webp)
+![Portfolio Demo](https://manan-b.github.io/My-Portfolio/)
 
 ## ✨ Features
 
@@ -96,36 +96,6 @@ Edit `src/styles/tokens.css` to change:
 2. Import and add to `src/App.jsx`
 3. Add navigation link in `Header.jsx`
 
-## 🚀 Deployment
-
-### Vercel (Recommended)
-
-1. Push to GitHub
-2. Import repository on [Vercel](https://vercel.com)
-3. Deploy automatically
-
-### Netlify
-
-```bash
-npm run build
-# Drag dist/ folder to Netlify Drop
-```
-
-### GitHub Pages
-
-```bash
-# Install gh-pages
-npm install -D gh-pages
-
-# Add to package.json scripts
-"deploy": "gh-pages -d dist"
-
-# Update vite.config.js base
-base: '/your-repo-name/'
-
-# Deploy
-npm run build && npm run deploy
-```
 
 ## 📊 Performance
 
@@ -156,12 +126,6 @@ npm run lint         # Run ESLint
 ## 📄 License
 
 MIT License - feel free to use this for your personal portfolio!
-
-## 🙏 Acknowledgments
-
-- Design inspiration from modern portfolio websites
-- Icons from Heroicons
-- Fonts from Google Fonts (Inter, Outfit)
 
 ## 🤝 Contributing
 

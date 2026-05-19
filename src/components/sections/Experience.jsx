@@ -1,264 +1,270 @@
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import resumeData from '@/data/resume.json';
-import eoxsCertificate from '@/assets/EOXS Letter of Employeement.pdf';
 import cheggCertificate from '@/assets/Offer Letter@CHEGG.pdf';
 
-/**
- * Experience Section - Vertical Timeline with Boxes (Turquoise Theme)
- */
-
-// Map company names to their respective certificate PDFs
 const certificateLinks = {
-    'EOXS': eoxsCertificate,
+    'Persistent Systems': null,
+    'Revature': null,
     'Chegg India': cheggCertificate,
-    'Wiperspray': null
 };
 
-export default function Experience() {
-    const experiences = resumeData.experience || [];
-    const [expandedItems, setExpandedItems] = useState({});
-    const [isMobile, setIsMobile] = useState(false);
+const companyMeta = {
+    'Persistent Systems': {
+        domain: 'Data Engineering',
+        location: 'Pune, Maharashtra',
+        glow: 'rgba(52,211,153,0.25)',
+        accentFrom: '#34d399',
+        accentTo: '#14b8a6',
+        dotColor: 'bg-emerald-400',
+        labelColor: 'text-emerald-400',
+        badgeBg: 'bg-emerald-400/10',
+        badgeBorder: 'border-emerald-400/30',
+        badgeText: 'text-emerald-400',
+        roleLabel: 'Consulting',
+    },
+    'Revature': {
+        domain: 'Tech Training',
+        location: 'Chennai, Tamil Nadu',
+        glow: 'rgba(56,189,248,0.25)',
+        accentFrom: '#38bdf8',
+        accentTo: '#3b82f6',
+        dotColor: 'bg-sky-400',
+        labelColor: 'text-sky-400',
+        badgeBg: 'bg-sky-400/10',
+        badgeBorder: 'border-sky-400/30',
+        badgeText: 'text-sky-400',
+        roleLabel: 'Engineering',
+    },
+    'Chegg India': {
+        domain: 'EdTech',
+        location: 'Remote',
+        glow: 'rgba(167,139,250,0.25)',
+        accentFrom: '#a78bfa',
+        accentTo: '#8b5cf6',
+        dotColor: 'bg-violet-400',
+        labelColor: 'text-violet-400',
+        badgeBg: 'bg-violet-400/10',
+        badgeBorder: 'border-violet-400/30',
+        badgeText: 'text-violet-400',
+        roleLabel: 'Education',
+    },
+};
 
-    // Check if mobile viewport
-    useEffect(() => {
-        const checkMobile = () => setIsMobile(window.innerWidth < 768);
-        checkMobile();
-        window.addEventListener('resize', checkMobile);
-        return () => window.removeEventListener('resize', checkMobile);
-    }, []);
-
-    const toggleExpanded = (index) => {
-        setExpandedItems(prev => ({
-            ...prev,
-            [index]: !prev[index]
-        }));
-    };
-
-    // Calculate dynamic height based on expanded items
-    const calculateTimelineHeight = () => {
-        const baseHeight = 250; // base height per item
-        const expandedBonus = 80; // extra height when expanded
-
-        let totalHeight = experiences.length * baseHeight;
-        Object.keys(expandedItems).forEach(key => {
-            if (expandedItems[key] && isMobile) {
-                totalHeight += expandedBonus;
-            }
-        });
-
-        // Adjusted subtraction to ensure line ends behind the last dot
-        return `${totalHeight - 160}px`;
-    };
+function ExperienceCard({ exp, index }) {
+    const [hovered, setHovered] = useState(false);
+    const cert = certificateLinks[exp.company];
+    const meta = companyMeta[exp.company] || companyMeta['Chegg India'];
+    const isLast = index === (resumeData.experience?.length ?? 0) - 1;
+    const isActive = exp.period?.toLowerCase().includes('present');
 
     return (
-        <section
-            id="experience"
-            className="section-padding bg-[var(--bg-primary)] relative overflow-hidden"
+        <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ delay: index * 0.18, duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+            className="relative flex gap-6 md:gap-10"
         >
-            <div className="container-custom relative z-10">
-                {/* Section Title */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="text-center mb-12 sm:mb-16"
-                >
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-                        <span className="text-primary-400">Work </span>
-                        <span className="text-[var(--text-primary)]">Experience</span>
-                    </h2>
-                    <div className="w-20 h-1 bg-gradient-to-r from-primary-400 to-primary-500 mx-auto rounded-full" />
-                </motion.div>
+            {/* Left — Timeline Track */}
+            <div className="hidden md:flex flex-col items-center flex-shrink-0 w-12">
+                <div className="flex flex-col items-center mt-6">
+                    <motion.div
+                        animate={hovered
+                            ? { scale: 1.35, boxShadow: `0 0 24px ${meta.glow}, 0 0 48px ${meta.glow}` }
+                            : { scale: 1, boxShadow: `0 0 10px ${meta.glow}` }
+                        }
+                        transition={{ type: 'spring', stiffness: 260, damping: 18 }}
+                        className={`w-10 h-10 rounded-full ${meta.dotColor} z-10 flex-shrink-0 flex items-center justify-center border-2 border-[var(--bg-secondary)]`}
+                    >
+                        <span className="font-orbitron font-bold text-[var(--bg-primary)] text-xs">{index + 1}</span>
+                    </motion.div>
+                </div>
+                {!isLast && (
+                    <div className="flex-1 w-px mt-3 opacity-50"
+                        style={{ background: `linear-gradient(to bottom, ${meta.accentFrom}, transparent)` }} />
+                )}
+            </div>
 
-                {/* Timeline Layout - Boxes with Vertical Line */}
-                <div className="max-w-5xl mx-auto px-4 sm:px-6">
-                    <div className="relative">
-                        {/* Continuous Vertical Line - Dynamic Height */}
+            {/* Right — Card */}
+            <div className="flex-1 pb-10 last:pb-0">
+                <motion.div
+                    onHoverStart={() => setHovered(true)}
+                    onHoverEnd={() => setHovered(false)}
+                    whileHover={{ y: -5 }}
+                    transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+                    className="relative rounded-2xl overflow-hidden transition-all duration-300"
+                    style={{
+                        boxShadow: hovered
+                            ? `0 20px 60px rgba(0,0,0,0.5), 0 0 40px ${meta.glow}`
+                            : `0 4px 24px rgba(0,0,0,0.25)`,
+                        border: `1px solid ${hovered ? meta.accentFrom + '55' : 'var(--border-color)'}`,
+                    }}
+                >
+                    {/* ── Header Band ── */}
+                    <div
+                        className="relative px-6 sm:px-8 py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+                        style={{
+                            background: `linear-gradient(135deg, ${meta.accentFrom}22 0%, ${meta.accentTo}10 100%)`,
+                            borderBottom: `1px solid ${meta.accentFrom}30`,
+                        }}
+                    >
+                        {/* Left accent stripe */}
                         <div
-                            className="hidden md:block absolute left-[14px] sm:left-[18px] md:left-[38px] top-[40px] w-0.5 sm:w-1 bg-[#065465] rounded-full transition-all duration-500"
-                            style={{ height: calculateTimelineHeight() }}
+                            className="absolute left-0 top-0 bottom-0 w-1"
+                            style={{ background: `linear-gradient(to bottom, ${meta.accentFrom}, ${meta.accentTo})` }}
                         />
 
-                        {/* Experience Items */}
-                        <div className="flex flex-col">
-                            {experiences.length > 0 && (
+                        <div className="flex items-center gap-3 pl-2">
+                            <h3
+                                className="font-orbitron text-xl sm:text-2xl font-bold leading-tight"
+                                style={{ color: meta.accentFrom }}
+                            >
+                                {exp.company}
+                            </h3>
+
+                            {isActive && (
+                                <span className="relative inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-mono-ui font-bold tracking-widest uppercase"
+                                    style={{ background: `${meta.accentFrom}20`, border: `1px solid ${meta.accentFrom}60`, color: meta.accentFrom }}>
+                                    <span className="relative flex w-1.5 h-1.5">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
+                                            style={{ backgroundColor: meta.accentFrom }} />
+                                        <span className="relative inline-flex rounded-full w-1.5 h-1.5"
+                                            style={{ backgroundColor: meta.accentFrom }} />
+                                    </span>
+                                    ACTIVE
+                                </span>
+                            )}
+                        </div>
+
+                        {/* Period pill */}
+                        <div
+                            className="flex-shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-mono-ui text-xs font-semibold tracking-wider"
+                            style={{
+                                background: `${meta.accentFrom}15`,
+                                border: `1px solid ${meta.accentFrom}45`,
+                                color: meta.accentFrom,
+                            }}
+                        >
+                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            {exp.period}
+                        </div>
+                    </div>
+
+                    {/* ── Card Body ── */}
+                    <div
+                        className="px-6 sm:px-8 py-6"
+                        style={{ background: 'linear-gradient(160deg, var(--bg-primary) 0%, var(--bg-tertiary) 100%)' }}
+                    >
+                        {/* Role title + location row */}
+                        <div className="flex flex-wrap items-center gap-3 mb-5">
+                            <p className="text-[var(--text-primary)] font-semibold text-base sm:text-lg tracking-wide">
+                                {exp.title}
+                            </p>
+                            <span className="text-[var(--border-color)]">·</span>
+                            <span className="flex items-center gap-1 font-mono-ui text-xs text-[var(--text-secondary)]">
+                                <svg className="w-3 h-3 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                </svg>
+                                {meta.location}
+                            </span>
+                            {cert && (
                                 <>
-                                    {experiences.map((exp, idx) => {
-                                        const isExpanded = expandedItems[idx];
-                                        const showReadMore = isMobile && exp.highlights && exp.highlights.length > 2;
-                                        const displayHighlights = showReadMore && !isExpanded
-                                            ? exp.highlights.slice(0, 2)
-                                            : exp.highlights;
-
-                                        return (
-                                            <motion.div
-                                                key={idx}
-                                                initial={{ opacity: 0, x: -30 }}
-                                                whileInView={{ opacity: 1, x: 0 }}
-                                                viewport={{ once: true }}
-                                                transition={{ delay: idx * 0.15 }}
-                                                className="relative pl-0 md:pl-24 pb-10 sm:pb-12 last:pb-0"
-                                            >
-                                                {/* Turquoise Dot with Glow - Centered on Line */}
-                                                <div className="hidden md:block absolute left-[6px] sm:left-[8px] md:left-[28px] top-3 sm:top-5 z-10">
-                                                    <div className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 bg-[var(--bg-primary)] rounded-full border-2 sm:border-[3px] border-primary-400 shadow-[0_0_10px_rgba(45,212,191,0.5)] sm:shadow-[0_0_15px_rgba(45,212,191,0.6)]" />
-                                                </div>
-
-                                                {/* Content Box */}
-                                                {certificateLinks[exp.company] ? (
-                                                    <a
-                                                        href={certificateLinks[exp.company]}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="block bg-[var(--bg-secondary)] rounded-xl p-4 sm:p-5 md:p-6 border border-[var(--border-color)] hover:border-primary-400/50 hover:shadow-[0_5px_20px_rgba(45,212,191,0.1)] transition-all group relative cursor-pointer"
-                                                    >
-                                                        <div className="flex flex-col gap-3 sm:gap-4">
-                                                            {/* Top Row: Title/Company + Period */}
-                                                            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
-                                                                {/* Left - Main Content */}
-                                                                <div className="flex-1 w-full order-2 sm:order-1">
-                                                                    {/* Title */}
-                                                                    <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-[var(--text-primary)] mb-2 group-hover:text-primary-400 transition-colors">
-                                                                        {exp.title}
-                                                                    </h3>
-
-                                                                    {/* Period - Mobile Only (Below Title) */}
-                                                                    <div className="block sm:hidden mb-3">
-                                                                        <span className="text-primary-400 text-xs font-medium">
-                                                                            {exp.period}
-                                                                        </span>
-                                                                    </div>
-
-                                                                    {/* Company */}
-                                                                    <div className="flex items-start gap-2 mb-0">
-                                                                        <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--text-secondary)] mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                                                            <path fillRule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clipRule="evenodd" />
-                                                                        </svg>
-                                                                        <p className="text-xs sm:text-sm md:text-base lg:text-lg text-[var(--text-secondary)] font-medium">
-                                                                            {exp.company}
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-
-                                                                {/* Right - Period (Desktop Only) */}
-                                                                <div className="hidden sm:block flex-shrink-0 order-1 sm:order-2">
-                                                                    <span className="inline-flex items-center justify-center px-3 sm:px-4 py-1.5 sm:py-2 bg-primary-400/10 text-primary-400 text-xs sm:text-sm font-bold rounded-lg border border-primary-400/20 group-hover:bg-primary-400/20 transition-colors">
-                                                                        {exp.period}
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-
-                                                            {/* Highlights - Full Width */}
-                                                            {displayHighlights && displayHighlights.length > 0 && (
-                                                                <div className="space-y-2 mt-2">
-                                                                    {displayHighlights.map((highlight, highlightIdx) => (
-                                                                        <div key={highlightIdx} className="flex items-start gap-3">
-                                                                            <div className="mt-1.5 flex-shrink-0">
-                                                                                <div className="w-1.5 h-1.5 bg-primary-400 rounded-full" />
-                                                                            </div>
-                                                                            <p className="text-[var(--text-secondary)] text-xs sm:text-sm leading-relaxed flex-1">
-                                                                                {highlight}
-                                                                            </p>
-                                                                        </div>
-                                                                    ))}
-                                                                    {showReadMore && (
-                                                                        <div className="flex justify-center sm:justify-start w-full">
-                                                                            <button
-                                                                                onClick={(e) => {
-                                                                                    e.preventDefault();
-                                                                                    e.stopPropagation();
-                                                                                    toggleExpanded(idx);
-                                                                                }}
-                                                                                className="text-primary-400 text-xs font-medium hover:text-primary-300 transition-colors mt-2 flex items-center gap-1"
-                                                                            >
-                                                                                {isExpanded ? 'Read Less' : 'Read More'}
-                                                                                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isExpanded ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"} />
-                                                                                </svg>
-                                                                            </button>
-                                                                        </div>
-                                                                    )}
-                                                                </div>
-                                                            )}
-                                                        </div>
-                                                    </a>
-                                                ) : (
-                                                    <div className="bg-[var(--bg-secondary)] rounded-xl p-4 sm:p-5 md:p-6 border border-[var(--border-color)] hover:border-primary-400/50 hover:shadow-[0_5px_20px_rgba(45,212,191,0.1)] transition-all group relative">
-                                                        <div className="flex flex-col gap-3 sm:gap-4">
-                                                            {/* Top Row: Title/Company + Period */}
-                                                            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
-                                                                {/* Left - Main Content */}
-                                                                <div className="flex-1 w-full order-2 sm:order-1">
-                                                                    {/* Title */}
-                                                                    <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-[var(--text-primary)] mb-2 group-hover:text-primary-400 transition-colors">
-                                                                        {exp.title}
-                                                                    </h3>
-
-                                                                    {/* Period - Mobile Only (Below Title) */}
-                                                                    <div className="block sm:hidden mb-3">
-                                                                        <span className="text-primary-400 text-xs font-medium">
-                                                                            {exp.period}
-                                                                        </span>
-                                                                    </div>
-
-                                                                    {/* Company */}
-                                                                    <div className="flex items-start gap-2 mb-0">
-                                                                        <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--text-secondary)] mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                                                            <path fillRule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clipRule="evenodd" />
-                                                                        </svg>
-                                                                        <p className="text-xs sm:text-sm md:text-base lg:text-lg text-[var(--text-secondary)] font-medium">
-                                                                            {exp.company}
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-
-                                                                {/* Right - Period (Desktop Only) */}
-                                                                <div className="hidden sm:block flex-shrink-0 order-1 sm:order-2">
-                                                                    <span className="inline-flex items-center justify-center px-3 sm:px-4 py-1.5 sm:py-2 bg-primary-400/10 text-primary-400 text-xs sm:text-sm font-bold rounded-lg border border-primary-400/20 group-hover:bg-primary-400/20 transition-colors">
-                                                                        {exp.period}
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-
-                                                            {/* Highlights - Full Width */}
-                                                            {displayHighlights && displayHighlights.length > 0 && (
-                                                                <div className="space-y-2 mt-2">
-                                                                    {displayHighlights.map((highlight, highlightIdx) => (
-                                                                        <div key={highlightIdx} className="flex items-start gap-3">
-                                                                            <div className="mt-1.5 flex-shrink-0">
-                                                                                <div className="w-1.5 h-1.5 bg-primary-400 rounded-full" />
-                                                                            </div>
-                                                                            <p className="text-[var(--text-secondary)] text-xs sm:text-sm leading-relaxed flex-1">
-                                                                                {highlight}
-                                                                            </p>
-                                                                        </div>
-                                                                    ))}
-                                                                    {showReadMore && (
-                                                                        <div className="flex justify-center sm:justify-start w-full">
-                                                                            <button
-                                                                                onClick={() => toggleExpanded(idx)}
-                                                                                className="text-primary-400 text-xs font-medium hover:text-primary-300 transition-colors mt-2 flex items-center gap-1"
-                                                                            >
-                                                                                {isExpanded ? 'Read Less' : 'Read More'}
-                                                                                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isExpanded ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"} />
-                                                                                </svg>
-                                                                            </button>
-                                                                        </div>
-                                                                    )}
-                                                                </div>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </motion.div>
-                                        );
-                                    })}
+                                    <span className="text-[var(--border-color)]">·</span>
+                                    <a href={cert} target="_blank" rel="noopener noreferrer"
+                                        onClick={(e) => e.stopPropagation()}
+                                        className="inline-flex items-center gap-1 font-mono-ui text-xs transition-colors"
+                                        style={{ color: meta.accentFrom }}>
+                                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                        </svg>
+                                        Certificate
+                                    </a>
                                 </>
                             )}
                         </div>
+
+                        {/* Accent divider */}
+                        <div className="mb-5 h-px w-full rounded"
+                            style={{ background: `linear-gradient(90deg, ${meta.accentFrom}50, transparent)` }} />
+
+                        {/* Highlights */}
+                        {exp.highlights && exp.highlights.length > 0 && (
+                            <ul className="space-y-3.5">
+                                {exp.highlights.map((highlight, i) => (
+                                    <motion.li
+                                        key={i}
+                                        initial={{ opacity: 0, x: -10 }}
+                                        whileInView={{ opacity: 1, x: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ delay: index * 0.18 + i * 0.07, duration: 0.4 }}
+                                        className="flex items-start gap-3"
+                                    >
+                                        <div className="mt-[7px] flex-shrink-0 flex items-center gap-1.5">
+                                            <div
+                                                className="w-2 h-2 rounded-full flex-shrink-0"
+                                                style={{ backgroundColor: meta.accentFrom, boxShadow: `0 0 8px ${meta.glow}` }}
+                                            />
+                                            <div className="w-5 h-px" style={{ background: `linear-gradient(90deg, ${meta.accentFrom}70, transparent)` }} />
+                                        </div>
+                                        <p className="text-[var(--text-primary)] text-sm sm:text-[0.9rem] leading-relaxed opacity-90">
+                                            {highlight}
+                                        </p>
+                                    </motion.li>
+                                ))}
+                            </ul>
+                        )}
                     </div>
+
+                    {/* Scan-line overlay */}
+                    <div className="absolute inset-0 pointer-events-none rounded-2xl"
+                        style={{ background: 'repeating-linear-gradient(to bottom, transparent, transparent 3px, rgba(0,212,255,0.006) 3px, rgba(0,212,255,0.006) 4px)' }} />
+                </motion.div>
+            </div>
+        </motion.div>
+    );
+}
+
+export default function Experience() {
+    const experiences = resumeData.experience || [];
+
+    return (
+        <section id="experience" className="section-padding bg-[var(--bg-secondary)] relative overflow-hidden">
+
+            {/* Dot grid */}
+            <div className="absolute inset-0 bg-dots opacity-40 pointer-events-none" />
+            <div className="absolute top-0 left-0 right-0 h-px pointer-events-none"
+                style={{ background: 'linear-gradient(90deg, transparent, rgba(0,212,255,0.4), transparent)' }} />
+            <div className="absolute bottom-0 left-0 right-0 h-px pointer-events-none"
+                style={{ background: 'linear-gradient(90deg, transparent, rgba(0,212,255,0.2), transparent)' }} />
+
+            <div className="container-custom relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                {/* Section Header */}
+                <motion.div
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                    className="text-center mb-16 sm:mb-20"
+                >
+                    <h2 className="section-title text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
+                        <span className="text-primary-400">Work </span>
+                        <span className="text-[var(--text-primary)]">Experience</span>
+                    </h2>
+                    <div className="glow-divider w-24 mx-auto mb-5" />
+                    <p className="text-[var(--text-secondary)] font-mono-ui text-sm max-w-xl mx-auto">
+                        A timeline of roles where I built products, engineered systems, and delivered measurable impact.
+                    </p>
+                </motion.div>
+
+                {/* Timeline */}
+                <div className="flex flex-col">
+                    {experiences.map((exp, idx) => (
+                        <ExperienceCard key={idx} exp={exp} index={idx} />
+                    ))}
                 </div>
             </div>
         </section>

@@ -1,119 +1,209 @@
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 import resumeData from '@/data/resume.json';
 
-/**
- * Education Section - Vertical Timeline with Boxes (Turquoise Theme)
- */
+// Color config per education entry (cycles if more than 3)
+const entryColors = [
+    {
+        dotColor: 'bg-emerald-400',
+        glow: 'rgba(52,211,153,0.25)',
+        accentFrom: '#34d399',
+        accentTo: '#14b8a6',
+        labelColor: 'text-emerald-400',
+        badgeBg: 'bg-emerald-400/10',
+        badgeBorder: 'border-emerald-400/30',
+        badgeText: 'text-emerald-400',
+    },
+    {
+        dotColor: 'bg-sky-400',
+        glow: 'rgba(56,189,248,0.25)',
+        accentFrom: '#38bdf8',
+        accentTo: '#3b82f6',
+        labelColor: 'text-sky-400',
+        badgeBg: 'bg-sky-400/10',
+        badgeBorder: 'border-sky-400/30',
+        badgeText: 'text-sky-400',
+    },
+    {
+        dotColor: 'bg-violet-400',
+        glow: 'rgba(167,139,250,0.25)',
+        accentFrom: '#a78bfa',
+        accentTo: '#8b5cf6',
+        labelColor: 'text-violet-400',
+        badgeBg: 'bg-violet-400/10',
+        badgeBorder: 'border-violet-400/30',
+        badgeText: 'text-violet-400',
+    },
+];
+
+function EducationCard({ edu, index, total }) {
+    const [hovered, setHovered] = useState(false);
+    const meta = entryColors[index % entryColors.length];
+    const isLast = index === total - 1;
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ delay: index * 0.18, duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+            className="relative flex gap-6 md:gap-10"
+        >
+            {/* Left — Timeline Track */}
+            <div className="hidden md:flex flex-col items-center flex-shrink-0 w-12">
+                <div className="flex flex-col items-center mt-8">
+                    {/* Numbered pulse dot */}
+                    <motion.div
+                        animate={hovered
+                            ? { scale: 1.3, boxShadow: `0 0 20px ${meta.glow}, 0 0 40px ${meta.glow}` }
+                            : { scale: 1, boxShadow: `0 0 8px ${meta.glow}` }
+                        }
+                        transition={{ type: 'spring', stiffness: 260, damping: 18 }}
+                        className={`w-9 h-9 rounded-full ${meta.dotColor} z-10 flex-shrink-0 flex items-center justify-center border-2 border-[var(--bg-secondary)]`}
+                    >
+                        <span className="font-orbitron font-bold text-[var(--bg-primary)] text-xs">{index + 1}</span>
+                    </motion.div>
+                </div>
+                {/* Connector line */}
+                {!isLast && (
+                    <div
+                        className="flex-1 w-px mt-3 opacity-40"
+                        style={{ background: `linear-gradient(to bottom, ${meta.accentFrom}, transparent)` }}
+                    />
+                )}
+            </div>
+
+            {/* Right — Card */}
+            <div className="flex-1 pb-10 last:pb-0">
+                <motion.div
+                    onHoverStart={() => setHovered(true)}
+                    onHoverEnd={() => setHovered(false)}
+                    whileHover={{ y: -5 }}
+                    transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+                    className="relative rounded-2xl overflow-hidden transition-all duration-300"
+                    style={{
+                        boxShadow: hovered
+                            ? `0 20px 60px rgba(0,0,0,0.5), 0 0 40px ${meta.glow}`
+                            : `0 4px 24px rgba(0,0,0,0.25)`,
+                        border: `1px solid ${hovered ? meta.accentFrom + '55' : 'var(--border-color)'}`,
+                    }}
+                >
+                    {/* ── Header Band ── */}
+                    <div
+                        className="relative px-6 sm:px-8 py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+                        style={{
+                            background: `linear-gradient(135deg, ${meta.accentFrom}22 0%, ${meta.accentTo}10 100%)`,
+                            borderBottom: `1px solid ${meta.accentFrom}30`,
+                        }}
+                    >
+                        {/* Left accent stripe */}
+                        <div
+                            className="absolute left-0 top-0 bottom-0 w-1"
+                            style={{ background: `linear-gradient(to bottom, ${meta.accentFrom}, ${meta.accentTo})` }}
+                        />
+
+                        <div className="flex items-center gap-3 pl-2">
+                            <h3
+                                className="font-orbitron text-xl sm:text-2xl font-bold leading-tight"
+                                style={{ color: meta.accentFrom }}
+                            >
+                                {edu.institution}
+                            </h3>
+                        </div>
+
+                        {/* Period pill */}
+                        <div
+                            className="flex-shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-mono-ui text-xs font-semibold tracking-wider"
+                            style={{
+                                background: `${meta.accentFrom}15`,
+                                border: `1px solid ${meta.accentFrom}45`,
+                                color: meta.accentFrom,
+                            }}
+                        >
+                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            {edu.period}
+                        </div>
+                    </div>
+
+                    {/* ── Card Body ── */}
+                    <div
+                        className="px-6 sm:px-8 py-6"
+                        style={{ background: 'linear-gradient(160deg, var(--bg-primary) 0%, var(--bg-tertiary) 100%)' }}
+                    >
+                        {/* Log ID */}
+                        <div className="font-mono-ui text-[10px] tracking-widest text-primary-400/40 uppercase mb-4">
+                            [LOG_{String(index + 1).padStart(2, '0')}] &gt; ACADEMIC_RECORD
+                        </div>
+
+                        {/* Role title + location row */}
+                        <div className="flex flex-wrap items-center gap-3 mb-5">
+                            <p className="text-[var(--text-primary)] font-semibold text-base sm:text-lg tracking-wide">
+                                {edu.degree}
+                            </p>
+                            {edu.score && (
+                                <>
+                                    <span className="text-[var(--border-color)]">·</span>
+                                    <span className="flex items-center gap-1 font-mono-ui text-xs text-[var(--text-secondary)]">
+                                        <span className="text-primary-400/50">GPA:</span>
+                                        {edu.score}
+                                    </span>
+                                </>
+                            )}
+                        </div>
+
+                        {/* Accent divider */}
+                        <div className="mb-2 h-px w-full rounded"
+                            style={{ background: `linear-gradient(90deg, ${meta.accentFrom}50, transparent)` }} />
+
+                    </div>
+
+                    {/* Scan-line overlay */}
+                    <div className="absolute inset-0 pointer-events-none rounded-2xl"
+                        style={{ background: 'repeating-linear-gradient(to bottom, transparent, transparent 3px, rgba(0,212,255,0.006) 3px, rgba(0,212,255,0.006) 4px)' }} />
+                </motion.div>
+            </div>
+        </motion.div>
+    );
+}
+
 export default function Education() {
     const education = resumeData.education || [];
 
     return (
-        <section
-            id="education"
-            className="section-padding bg-[var(--bg-primary)] relative overflow-hidden"
-        >
-            <div className="container-custom relative z-10">
-                {/*  Section Title */}
+        <section id="education" className="section-padding bg-[var(--bg-secondary)] relative overflow-hidden">
+
+            {/* Dot grid */}
+            <div className="absolute inset-0 bg-dots opacity-40 pointer-events-none" />
+            <div className="absolute top-0 left-0 right-0 h-px pointer-events-none"
+                style={{ background: 'linear-gradient(90deg, transparent, rgba(0,212,255,0.4), transparent)' }} />
+            <div className="absolute bottom-0 left-0 right-0 h-px pointer-events-none"
+                style={{ background: 'linear-gradient(90deg, transparent, rgba(0,212,255,0.2), transparent)' }} />
+
+            <div className="container-custom relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                {/* Section Header */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 24 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="text-center mb-12 sm:mb-16"
+                    transition={{ duration: 0.6 }}
+                    className="text-center mb-16 sm:mb-20"
                 >
-                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
+
+                    <h2 className="section-title text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
                         <span className="text-[var(--text-primary)]">My </span>
                         <span className="text-primary-400">Education</span>
                     </h2>
-                    <div className="w-20 h-1 bg-gradient-to-r from-primary-400 to-primary-500 mx-auto rounded-full" />
+                    <div className="glow-divider w-24 mx-auto" />
                 </motion.div>
 
-                {/* Timeline Layout - Boxes with Vertical Line */}
-                <div className="max-w-5xl mx-auto px-2 sm:px-4">
-                    <div className="relative">
-                        {/* Continuous Vertical Line - Dynamic Height */}
-                        <div
-                            className="hidden md:block absolute left-[14px] sm:left-[18px] md:left-[38px] top-[40px] w-0.5 sm:w-1 bg-[#065465] rounded-full"
-                            style={{ height: `calc(${education.length} * 180px - 130px)` }}
-                        />
-
-                        {/* Education Items */}
-                        <div className="flex flex-col">
-                            {education.length > 0 && (
-                                <>
-                                    {education.map((edu, idx) => (
-                                        <motion.div
-                                            key={idx}
-                                            initial={{ opacity: 0, x: -30 }}
-                                            whileInView={{ opacity: 1, x: 0 }}
-                                            viewport={{ once: true }}
-                                            transition={{ delay: idx * 0.15 }}
-                                            className="relative pl-0 md:pl-24 pb-6 sm:pb-8 md:pb-12 last:pb-0"
-                                        >
-                                            {/* Vertical Line Segment (connects to next item) */}
-                                            {idx !== education.length - 1 && (
-                                                <div className="hidden md:block absolute left-[14px] sm:left-[18px] md:left-[38px] top-[32px] bottom-[-32px] w-0.5 sm:w-1 bg-primary-400/20 rounded-full" />
-                                            )}
-
-                                            {/* Turquoise Dot with Glow - Centered on Line */}
-                                            <div className="hidden md:block absolute left-[6px] sm:left-[8px] md:left-[28px] top-3 sm:top-5 z-10">
-                                                <div className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 bg-[var(--bg-primary)] rounded-full border-2 sm:border-[3px] border-primary-400 shadow-[0_0_10px_rgba(45,212,191,0.5)] sm:shadow-[0_0_15px_rgba(45,212,191,0.6)]" />
-                                            </div>
-
-                                            {/* Content Box */}
-                                            <div className="bg-[var(--bg-secondary)] rounded-xl p-4 sm:p-5 md:p-6 border border-[var(--border-color)] hover:border-primary-400/50 hover:shadow-[0_5px_20px_rgba(45,212,191,0.1)] transition-all group relative">
-                                                <div className="flex flex-col gap-3 sm:gap-4">
-                                                    {/* Top - Period on mobile, moves to right on larger screens */}
-                                                    {/* Top - Period on mobile, moves to right on larger screens */}
-                                                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
-                                                        {/* Left - Main Content */}
-                                                        <div className="flex-1 order-2 sm:order-1">
-                                                            {/* Degree */}
-                                                            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-[var(--text-primary)] mb-1 group-hover:text-primary-400 transition-colors">
-                                                                {edu.degree}
-                                                            </h3>
-
-                                                            {/* Period - Mobile Only (Below Degree) */}
-                                                            <div className="block sm:hidden mb-3">
-                                                                <span className="text-primary-400 text-xs font-medium">
-                                                                    {edu.period}
-                                                                </span>
-                                                            </div>
-
-                                                            {/* Institution */}
-                                                            <div className="flex items-start gap-2 mb-3">
-                                                                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--text-secondary)] mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                                                    <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
-                                                                </svg>
-                                                                <p className="text-sm sm:text-base md:text-lg text-[var(--text-secondary)] font-medium">
-                                                                    {edu.institution}
-                                                                </p>
-                                                            </div>
-
-                                                            {/* Score */}
-                                                            {edu.score && (
-                                                                <div className="inline-block bg-[var(--bg-primary)] px-3 py-1 rounded-full border border-[var(--border-color)] group-hover:border-primary-400/30 transition-colors">
-                                                                    <p className="text-primary-400 text-sm font-medium">
-                                                                        {edu.score}
-                                                                    </p>
-                                                                </div>
-                                                            )}
-                                                        </div>
-
-                                                        {/* Right - Period (Desktop Only) */}
-                                                        <div className="hidden sm:block flex-shrink-0 order-1 sm:order-2">
-                                                            <span className="inline-flex items-center justify-center px-3 sm:px-4 py-1.5 sm:py-2 bg-primary-400/10 text-primary-400 text-xs sm:text-sm font-bold rounded-lg border border-primary-400/20 group-hover:bg-primary-400/20 transition-colors">
-                                                                {edu.period}
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </motion.div>
-                                    ))}
-                                </>
-                            )}
-                        </div>
-                    </div>
+                {/* Timeline */}
+                <div className="flex flex-col">
+                    {education.map((edu, idx) => (
+                        <EducationCard key={idx} edu={edu} index={idx} total={education.length} />
+                    ))}
                 </div>
             </div>
         </section>

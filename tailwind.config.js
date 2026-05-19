@@ -43,8 +43,15 @@ export default {
                 },
             },
             fontFamily: {
-                sans: ['Inter', 'system-ui', 'sans-serif'],
-                display: ['Outfit', 'sans-serif'],
+                sans: ['Poppins', 'Inter', 'system-ui', 'sans-serif'],
+                display: ['Orbitron', 'sans-serif'],
+                orbitron: ['Orbitron', 'sans-serif'],
+                mono: ['Fira Code', 'Courier New', 'monospace'],
+            },
+            boxShadow: {
+                glow: '0 0 20px rgba(0,212,255,0.45), 0 0 40px rgba(0,212,255,0.2)',
+                'glow-lg': '0 0 40px rgba(0,212,255,0.35), 0 0 80px rgba(0,212,255,0.15)',
+                'glow-sm': '0 0 10px rgba(0,212,255,0.5)',
             },
             spacing: {
                 18: '4.5rem',

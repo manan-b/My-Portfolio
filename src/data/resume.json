@@ -1,36 +1,38 @@
 {
   "name": "Manan Batra",
-  "title": "Full Stack Web Developer",
-  "summary": "Full Stack Web Developer specializing in the MERN stack (MongoDB, Express, React, Node.js). Experienced in designing and delivering scalable, user-focused web applications. Skilled in building dynamic interfaces, engineering robust backends, and ensuring seamless full-stack functionality. Demonstrated ability to collaborate in team environments, implement best coding practices, and deliver high-quality solutions that drive user engagement and satisfaction. Experienced in resolving technical challenges, collaborating in cross-functional teams, and consistently delivering projects on time while adapting to fast-paced environments.",
+  "title": "",
+  "summary": "Aspiring Data Engineer with hands-on experience in Apache Spark, PySpark, Databricks, and ETL pipeline develop-\nment.  Skilled in building scalable data processing workflows, implementing data warehousing concepts, and working\nwith modern data architectures such as Medallion Architecture and Delta Lake.  Proficient in cloud-based data plat-\nforms and distributed data processing for large-scale datasets.  Additionally experienced in frontend development using\nReact.js, HTML5, CSS3, and Tailwind CSS to build responsive and user-friendly interfaces.",
   "contact": {
     "email": "mananbatra1946@gmail.com",
     "phone": "+91-9813345151",
-    "location": "India",
+    "location": "Little Angels School, Sonipat",
     "linkedin": "https://www.linkedin.com/in/mananbatra1/",
     "github": "https://github.com/manan-b"
   },
   "skills": {
-    "languages": [
+    "frontend": [
+      "JavaScript",
       "HTML5",
       "CSS3",
-      "JavaScript",
-      "C++",
-      "SQL"
-    ],
-    "frameworks": [
       "React.js",
       "Tailwind CSS",
-      "Material UI",
-      "Framer Motion",
-      "GSAP",
-      "Three.js",
-      "Lucide React"
+      "Material UI"
     ],
-    "backend": [
-      "Node.js",
-      "Express.js",
-      "MongoDB",
-      "REST APIs"
+    "backend_data": [
+      "Apache Spark",
+      "PySpark",
+      "Databricks",
+      "Delta Lake",
+      "ETL Pipelines",
+      "Data Warehousing",
+      "Medallion Architecture",
+      "AWS (S3",
+      "BigQuery",
+      "Redshift",
+      "Hadoop",
+      "Python",
+      "SQL",
+      "C/C++"
     ],
     "tools": [
       "Git",
@@ -38,28 +40,29 @@
       "Postman",
       "VS Code",
       "MySQL",
-      "Vercel"
+      "Vercel",
+      "IAM)"
     ]
   },
   "experience": [
     {
-      "company": "EOXS",
-      "title": "Software Developer Intern",
-      "period": "Jan 2025 – July 2025",
+      "company": "Persistent Systems",
+      "title": "Contract Consultant",
+      "period": "March 2026 – Present",
       "highlights": [
-        "Developed and deployed a full-stack Grievance Assistant with ticket-based tracking and AI analytics, improving efficiency by 25%.",
-        "Automated weekly reporting with Selenium and cron jobs, reducing manual effort by 80%.",
-        "Implemented CI/CD pipelines for seamless deployments and developed a QR-based event system."
+        "Contributing to the SSAP (Sales Services Automation Platform) project, focusing on building and optimizing data pipelines to support large-scale analytics and reporting use cases.",
+        "Developed and optimized big data processing workflows using PySpark, Databricks, Python, and SQL to handle high-volume, distributed datasets efficiently.",
+        "Worked with cloud-based data architectures leveraging AWS and GCP, ensuring scalable, reliable, and performance-optimized data solutions."
       ]
     },
     {
-      "company": "Wiperspray",
-      "title": "Full-Stack Web Developer",
-      "period": "May 2024 – Jan 2025",
+      "company": "Revature",
+      "title": "Trainee Software Engineer",
+      "period": "Feb 2026 – March 2026",
       "highlights": [
-        "Collaborated with the core product team to design and develop responsive web applications across User, Client, and Admin platforms, reducing user wait times by 20–30% through optimized full-stack flows.",
-        "Gained hands-on experience with the MERN stack (MongoDB, Express, React, Node.js), building scalable, reusable components and robust APIs.",
-        "Worked on integrating backend APIs with frontend interfaces to improve state management, delivering a smoother and more seamless user experience."
+        "Completed structured training in data engineering fundamentals, including Python, SQL, PySpark, Databricks, and distributed data processing concepts.",
+        "Built hands-on projects involving ETL pipelines, data transformation, and optimization on AWS and GCP cloud environments.",
+        "Applied software engineering best practices such as version control, modular design, and collaborative development in project-based learning."
       ]
     },
     {
@@ -74,6 +77,29 @@
     }
   ],
   "projects": [
+    {
+      "name": "Healthcare Patient Analytics Pipeline",
+      "description": "End-to-end batch data pipeline processing healthcare patient records through Medallion Architecture (Bronze → Silver → Gold) using Databricks, PySpark, AWS S3, and Delta Lake. Delivers curated analytics tables powering BI dashboards for hospital performance, patient risk, and diagnosis trend analysis.",
+      "bullets": [
+        "Engineered a scalable Medallion Architecture pipeline (Bronze → Silver → Gold) ingesting multi-CSV patient datasets via AWS Glue & S3",
+        "Built PySpark transformations for data cleaning, clinical range validation, deduplication via Spark MERGE, and schema evolution with Delta Lake",
+        "Orchestrated daily batch workflow at 2AM UTC using Databricks Workflows & Apache Airflow DAGs with email alerting on failures"
+      ],
+      "image": "/project-healthcare.png",
+      "technologies": [
+        "PySpark",
+        "Databricks",
+        "Delta Lake",
+        "AWS S3",
+        "AWS Glue",
+        "Apache Airflow",
+        "Spark SQL",
+        "Python",
+        "Medallion Architecture"
+      ],
+      "github": "https://github.com/manan-b/healthcare-pipeline/",
+      "link": "https://github.com/manan-b/healthcare-pipeline/"
+    },
     {
       "name": "ViewTube ~ YouTube Clone",
       "description": "Implemented real-time video streaming with API integration and optimized data fetching, resulting in 30% faster load times and improved user retention by 40%. Developed responsive UI with Tailwind CSS, ensuring accessibility compliance and increasing cross-device compatibility by 25%.",

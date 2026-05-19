@@ -1,125 +1,192 @@
-/* Design Tokens - Modern Blue Theme with Turquoise Accents */
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS — SCI-FI / CYBERPUNK DARK THEME
+   ═══════════════════════════════════════════════════════════ */
 :root {
-  /* Background Colors - Deep Blue Theme */
-  --bg-primary: #0a1628;
-  --bg-secondary: #102a43;
-  --bg-tertiary: #1e3a5f;
-  --surface: #102a43;
-  --surface-elevated: #1e3a5f;
+  /* ── Backgrounds ── */
+  --bg-primary:   #050d1a;
+  --bg-secondary: #0a1628;
+  --bg-tertiary:  #0f1f38;
+  --surface:      #0a1628;
+  --surface-elevated: #0f1f38;
 
-  /* Primary Color - Turquoise/Cyan Accent */
-  --color-primary-50: hsl(180, 100%, 98%);
-  --color-primary-100: hsl(180, 95%, 90%);
-  --color-primary-200: hsl(180, 90%, 80%);
-  --color-primary-300: hsl(180, 85%, 70%);
-  --color-primary-400: hsl(180, 85%, 55%);
-  --color-primary-500: #06b6d4;
-  --color-primary-600: #0891b2;
-  --color-primary-700: #0e7490;
-  --color-primary-800: #155e75;
-  --color-primary-900: #164e63;
+  /* ── Neon Cyan Primary ── */
+  --color-primary-50:  hsl(180, 100%, 97%);
+  --color-primary-100: hsl(180, 100%, 90%);
+  --color-primary-200: hsl(180, 100%, 80%);
+  --color-primary-300: hsl(180, 100%, 70%);
+  --color-primary-400: hsl(180, 100%, 55%);
+  --color-primary-500: #00d4ff;
+  --color-primary-600: #00a8cc;
+  --color-primary-700: #007a99;
+  --color-primary-800: #005066;
+  --color-primary-900: #002a33;
 
-  /* Secondary Color - Sky Blue */
-  --color-secondary-50: hsl(200, 100%, 98%);
-  --color-secondary-100: hsl(200, 95%, 90%);
-  --color-secondary-200: hsl(200, 85%, 80%);
-  --color-secondary-300: #78C1F3;
-  --color-secondary-400: #5ab3ef;
-  --color-secondary-500: #3b9fe8;
-  --color-secondary-600: #2a8cd4;
-  --color-secondary-700: #1e75b8;
-  --color-secondary-800: #165a91;
-  --color-secondary-900: #0f446d;
+  /* ── Electric Blue Secondary ── */
+  --color-secondary-50:  hsl(220, 100%, 97%);
+  --color-secondary-100: hsl(220, 100%, 90%);
+  --color-secondary-200: hsl(220, 95%, 80%);
+  --color-secondary-300: hsl(220, 90%, 70%);
+  --color-secondary-400: hsl(220, 100%, 65%);
+  --color-secondary-500: #4d7cff;
+  --color-secondary-600: #2956e8;
+  --color-secondary-700: #1a3cb8;
+  --color-secondary-800: #0f2580;
+  --color-secondary-900: #071450;
 
-  /* Accent Color - Orange for diversity */
-  --color-accent-50: hsl(25, 100%, 98%);
-  --color-accent-100: hsl(25, 95%, 90%);
-  --color-accent-200: hsl(25, 90%, 80%);
-  --color-accent-300: hsl(25, 85%, 70%);
-  --color-accent-400: hsl(25, 80%, 60%);
-  --color-accent-500: hsl(25, 75%, 50%);
-  --color-accent-600: hsl(25, 70%, 40%);
-  --color-accent-700: hsl(25, 65%, 30%);
-  --color-accent-800: hsl(25, 60%, 20%);
-  --color-accent-900: hsl(25, 55%, 10%);
+  /* ── Violet Accent ── */
+  --color-accent-400: hsl(270, 100%, 70%);
+  --color-accent-500: hsl(270, 90%, 60%);
 
-  /* Text Colors */
-  --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
-  --text-tertiary: #94a3b8;
-  --text-inverse: #0a0a0a;
+  /* ── Text ── */
+  --text-primary:   #e8f4ff;
+  --text-secondary: #7ab8d4;
+  --text-tertiary:  #3d6b8a;
+  --text-inverse:   #050d1a;
 
-  /* Border & Divider */
-  --border-color: #78C1F3;
-  --divider-color: #102a43;
+  /* ── Borders ── */
+  --border-color:   rgba(0, 212, 255, 0.18);
+  --border-bright:  rgba(0, 212, 255, 0.55);
+  --divider-color:  rgba(0, 212, 255, 0.08);
 
-  /* Shadow Tokens - Darker with Turquoise Glow */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.6),
-    0 2px 4px -1px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.7),
-    0 4px 6px -2px rgba(0, 0, 0, 0.6);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.8),
-    0 10px 10px -5px rgba(0, 0, 0, 0.7);
-  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.9);
-  --shadow-glow: 0 0 20px rgba(6, 182, 212, 0.4);
-  --shadow-glow-lg: 0 0 40px rgba(6, 182, 212, 0.3);
+  /* ── Glow shadows ── */
+  --shadow-sm:     0 1px 2px rgba(0,0,0,0.7);
+  --shadow-md:     0 4px 12px rgba(0,0,0,0.6);
+  --shadow-lg:     0 10px 30px rgba(0,0,0,0.7);
+  --shadow-xl:     0 20px 50px rgba(0,0,0,0.8);
+  --shadow-glow:   0 0 20px rgba(0,212,255,0.45), 0 0 40px rgba(0,212,255,0.2);
+  --shadow-glow-lg:0 0 40px rgba(0,212,255,0.35), 0 0 80px rgba(0,212,255,0.15);
+  --shadow-glow-sm:0 0 10px rgba(0,212,255,0.5);
 
-  /* Spacing Scale (base 4px) */
-  --spacing-xs: 0.25rem;
-  --spacing-sm: 0.5rem;
-  --spacing-md: 1rem;
-  --spacing-lg: 1.5rem;
-  --spacing-xl: 2rem;
+  /* ── Sci-fi specific ── */
+  --glow-cyan:   rgba(0, 212, 255, 0.6);
+  --glow-blue:   rgba(77, 124, 255, 0.5);
+  --glow-violet: rgba(168, 85, 247, 0.5);
+  --grid-color:  rgba(0, 212, 255, 0.04);
+  --scan-color:  rgba(0, 212, 255, 0.03);
+
+  /* ── Spacing ── */
+  --spacing-xs:  0.25rem;
+  --spacing-sm:  0.5rem;
+  --spacing-md:  1rem;
+  --spacing-lg:  1.5rem;
+  --spacing-xl:  2rem;
   --spacing-2xl: 3rem;
   --spacing-3xl: 4rem;
   --spacing-4xl: 6rem;
 
-  /* Typography */
-  --font-sans: 'Poppins', 'Inter', system-ui, -apple-system, sans-serif;
-  --font-display: 'Poppins', sans-serif;
-  --font-mono: 'Fira Code', 'Courier New', monospace;
+  /* ── Typography ── */
+  --font-display: 'Orbitron', 'Rajdhani', sans-serif;
+  --font-sans:    'Poppins', 'Inter', system-ui, sans-serif;
+  --font-mono:    'Fira Code', 'Courier New', monospace;
 
-  --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
+  /* ── Font sizes ── */
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
   --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
-  --text-2xl: 1.5rem;
-  --text-3xl: 1.875rem;
-  --text-4xl: 2.25rem;
-  --text-5xl: 3rem;
-  --text-6xl: 3.75rem;
-  --text-7xl: 4.5rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.25rem;
+  --text-2xl:  1.5rem;
+  --text-3xl:  1.875rem;
+  --text-4xl:  2.25rem;
+  --text-5xl:  3rem;
+  --text-6xl:  3.75rem;
+  --text-7xl:  4.5rem;
 
-  --font-weight-light: 300;
-  --font-weight-normal: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
+  /* ── Font weights ── */
+  --font-weight-light:     300;
+  --font-weight-normal:    400;
+  --font-weight-medium:    500;
+  --font-weight-semibold:  600;
+  --font-weight-bold:      700;
   --font-weight-extrabold: 800;
 
-  --line-height-tight: 1.25;
-  --line-height-normal: 1.5;
+  /* ── Line heights ── */
+  --line-height-tight:   1.25;
+  --line-height-normal:  1.5;
   --line-height-relaxed: 1.75;
 
-  /* Border Radius */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
-  --radius-2xl: 1.5rem;
+  /* ── Radius ── */
+  --radius-sm:   0.25rem;
+  --radius-md:   0.5rem;
+  --radius-lg:   0.75rem;
+  --radius-xl:   1rem;
+  --radius-2xl:  1.5rem;
   --radius-full: 9999px;
 
-  /* Animation Durations */
-  --duration-fast: 150ms;
+  /* ── Animations ── */
+  --duration-fast:   150ms;
   --duration-normal: 300ms;
-  --duration-slow: 500ms;
+  --duration-slow:   500ms;
   --duration-slower: 800ms;
+  --ease-in:      cubic-bezier(0.4, 0, 1, 1);
+  --ease-out:     cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out:  cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce:  cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
 
-  /* Easing Functions */
-  --ease-in: cubic-bezier(0.4, 0, 1, 1);
-  --ease-out: cubic-bezier(0, 0, 0.2, 1);
-  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
-  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+/* ═══════════════════════════════════════════════════════════
+   RED/BLACK ALT THEME (mapped to 'light' toggle)
+   ═══════════════════════════════════════════════════════════ */
+[data-theme="light"] {
+  /* ── Backgrounds ── */
+  --bg-primary:   #0a0305;
+  --bg-secondary: #120508;
+  --bg-tertiary:  #1c080d;
+  --surface:      #120508;
+  --surface-elevated: #1c080d;
+
+  /* ── Neon Red Primary ── */
+  --color-primary-50:  #ffe6ea;
+  --color-primary-100: #ffb3bf;
+  --color-primary-200: #ff8095;
+  --color-primary-300: #ff4d6a;
+  --color-primary-400: #ff1a3f;
+  --color-primary-500: #e60026;
+  --color-primary-600: #b3001e;
+  --color-primary-700: #800015;
+  --color-primary-800: #4d000d;
+  --color-primary-900: #1a0004;
+
+  /* ── Dark Crimson/Orange Secondary ── */
+  --color-secondary-50:  #fff0e6;
+  --color-secondary-100: #ffccb3;
+  --color-secondary-200: #ffa880;
+  --color-secondary-300: #ff854d;
+  --color-secondary-400: #ff611a;
+  --color-secondary-500: #e64200;
+  --color-secondary-600: #b33300;
+  --color-secondary-700: #802400;
+  --color-secondary-800: #4d1600;
+  --color-secondary-900: #1a0700;
+
+  /* ── Violet/Red Accent ── */
+  --color-accent-400: #ff0055;
+  --color-accent-500: #cc0044;
+
+  /* ── Text ── */
+  --text-primary:   #ffeef0;
+  --text-secondary: #e0b3bc;
+  --text-tertiary:  #a67c84;
+  --text-inverse:   #0a0305;
+
+  /* ── Borders ── */
+  --border-color:   rgba(255, 26, 63, 0.2);
+  --border-bright:  rgba(255, 26, 63, 0.55);
+  --divider-color:  rgba(255, 26, 63, 0.08);
+
+  /* ── Shadows ── */
+  --shadow-sm:     0 1px 2px rgba(0,0,0,0.8);
+  --shadow-md:     0 4px 12px rgba(0,0,0,0.7);
+  --shadow-lg:     0 10px 30px rgba(0,0,0,0.8);
+  --shadow-xl:     0 20px 50px rgba(0,0,0,0.9);
+  --shadow-glow:   0 0 20px rgba(255,26,63,0.45), 0 0 40px rgba(255,26,63,0.2);
+  --shadow-glow-lg:0 0 40px rgba(255,26,63,0.35), 0 0 80px rgba(255,26,63,0.15);
+  --shadow-glow-sm:0 0 10px rgba(255,26,63,0.5);
+
+  /* ── Sci-fi specific ── */
+  --glow-cyan:   rgba(255, 26, 63, 0.6);
+  --glow-blue:   rgba(255, 97, 26, 0.5);
+  --glow-violet: rgba(255, 0, 85, 0.5);
+  --grid-color:  rgba(255, 26, 63, 0.04);
+  --scan-color:  rgba(255, 26, 63, 0.03);
 }
