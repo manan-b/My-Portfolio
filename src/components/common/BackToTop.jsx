@@ -10,7 +10,8 @@ export default function BackToTop() {
     // Show button when page is scrolled down
     useEffect(() => {
         const toggleVisibility = () => {
-            if (window.pageYOffset > 300) {
+            const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+            if (scrollY > 300) {
                 setIsVisible(true);
             } else {
                 setIsVisible(false);
@@ -24,16 +25,33 @@ export default function BackToTop() {
 
     // Scroll to top smoothly with duration control
     const scrollToTop = () => {
-        const scrollDuration = 800;
-        const scrollStep = -window.scrollY / (scrollDuration / 15);
+        const startPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+        if (startPosition === 0) return;
 
-        const scrollInterval = setInterval(() => {
-            if (window.scrollY !== 0) {
-                window.scrollBy(0, scrollStep);
-            } else {
-                clearInterval(scrollInterval);
+        const duration = 800; // 800ms
+        let start = null;
+
+        const easeInOutCubic = (t) => {
+            return t < 0.5
+                ? 4 * t * t * t
+                : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        };
+
+        const animation = (currentTime) => {
+            if (start === null) start = currentTime;
+            const timeElapsed = currentTime - start;
+            const progress = Math.min(timeElapsed / duration, 1);
+            const ease = easeInOutCubic(progress);
+
+            const currentScroll = startPosition * (1 - ease);
+            window.scrollTo(0, currentScroll);
+
+            if (timeElapsed < duration) {
+                requestAnimationFrame(animation);
             }
-        }, 15);
+        };
+
+        requestAnimationFrame(animation);
     };
 
     return (
