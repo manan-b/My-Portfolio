@@ -67,22 +67,71 @@ function ExperienceCard({ exp, index }) {
             className="relative flex gap-6 md:gap-10"
         >
             {/* Left — Timeline Track */}
-            <div className="hidden md:flex flex-col items-center flex-shrink-0 w-12">
-                <div className="flex flex-col items-center mt-6">
+            <div className="hidden md:flex flex-col items-center flex-shrink-0 w-14">
+                <div className="flex flex-col items-center mt-6 relative">
+                    {/* Subtle outer orbital ring */}
+                    <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+                        className="absolute w-14 h-14 rounded-full"
+                        style={{
+                            border: `1px solid transparent`,
+                            borderTopColor: `${meta.accentFrom}40`,
+                            borderRightColor: `${meta.accentFrom}15`,
+                        }}
+                    />
+                    {/* Hexagonal node */}
                     <motion.div
                         animate={hovered
-                            ? { scale: 1.35, boxShadow: `0 0 24px ${meta.glow}, 0 0 48px ${meta.glow}` }
-                            : { scale: 1, boxShadow: `0 0 10px ${meta.glow}` }
+                            ? { scale: 1.15, boxShadow: `0 0 20px ${meta.glow}, 0 0 40px ${meta.glow}` }
+                            : { scale: 1, boxShadow: `0 0 8px ${meta.glow}` }
                         }
-                        transition={{ type: 'spring', stiffness: 260, damping: 18 }}
-                        className={`w-10 h-10 rounded-full ${meta.dotColor} z-10 flex-shrink-0 flex items-center justify-center border-2 border-[var(--bg-secondary)]`}
+                        transition={{ type: 'spring', stiffness: 280, damping: 20 }}
+                        className="w-12 h-12 z-10 flex-shrink-0 flex items-center justify-center relative"
+                        style={{
+                            clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
+                            background: `linear-gradient(135deg, ${meta.accentFrom}, ${meta.accentTo})`,
+                        }}
                     >
-                        <span className="font-orbitron font-bold text-[var(--bg-primary)] text-xs">{index + 1}</span>
+                        {/* Inner cutout */}
+                        <div
+                            className="absolute inset-[2px] flex items-center justify-center"
+                            style={{
+                                clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
+                                background: 'var(--bg-secondary)',
+                            }}
+                        >
+                            <span
+                                className="font-orbitron font-bold text-xs"
+                                style={{ color: meta.accentFrom }}
+                            >
+                                {String(index + 1).padStart(2, '0')}
+                            </span>
+                        </div>
                     </motion.div>
                 </div>
+                {/* Connector — gradient line with flowing energy dot */}
                 {!isLast && (
-                    <div className="flex-1 w-px mt-3 opacity-50"
-                        style={{ background: `linear-gradient(to bottom, ${meta.accentFrom}, transparent)` }} />
+                    <div className="relative flex-1 mt-4" style={{ width: '2px' }}>
+                        <div
+                            className="absolute inset-0"
+                            style={{
+                                width: '2px',
+                                background: `linear-gradient(to bottom, ${meta.accentFrom}60, ${meta.accentFrom}15)`,
+                                borderRadius: '1px',
+                            }}
+                        />
+                        {/* Flowing energy dot */}
+                        <motion.div
+                            className="absolute left-1/2 -translate-x-1/2 w-[6px] h-[6px] rounded-full"
+                            style={{
+                                backgroundColor: meta.accentFrom,
+                                boxShadow: `0 0 10px ${meta.glow}, 0 0 4px ${meta.accentFrom}`,
+                            }}
+                            animate={{ top: ['0%', '100%'], opacity: [1, 0.3] }}
+                            transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+                        />
+                    </div>
                 )}
             </div>
 
